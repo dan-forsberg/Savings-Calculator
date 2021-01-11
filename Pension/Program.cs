@@ -22,14 +22,15 @@ namespace Pension
             List<int> tax = savings.GetYearlyTaxes();
             List<int> resultNoYield = savings.GetYearlyResultNoYield();
 
-            Console.WriteLine("{0,5} {1,10} {2,15} {3,20}", "Year", "Savings w/ yield", "Tax", "Savings w/o yield");
+            Console.WriteLine("{0,5} {1,20} {2,15} {3,15}", "Year", "Savings w/ yield", "Tax", "Savings w/o yield");
             for (int i = 0; i <= resultWithYield.Count; i += 5)
             {
                 // when i = 5, it's actually year 6 which we don't want
                 int year = (i == 0 ? i : i - 1);
 
                 // carefully bruteforced formatting so the columns perfectly line up
-                Console.WriteLine($"{year + 1,5} {resultWithYield[year] + " kr",16} {tax[year] + " kr",15} {resultNoYield[year] + " kr",20}");
+                Console.WriteLine("{0,5} {1,20} {2,15} {3,15}", 
+                    year + 1, resultWithYield[year].ToString("N0") + " kr", tax[year].ToString("N0") + " kr", resultNoYield[year].ToString("N0") + " kr");
             }
         }
     }
