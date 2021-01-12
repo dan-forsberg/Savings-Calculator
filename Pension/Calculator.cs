@@ -74,11 +74,6 @@ namespace Savings
 
             double thisYearsTax = CalculateTax(qResultsTotal);
 
-            /* add this years total saved to moneySavedTotal
-             * 
-             * calculate last years yeild of the moneySavedWithYield
-             * add this years total saved to moneySavedWithYield so it can be grown next year
-             */
             double thisYearsSavings = monthlySavings * 12;
             moneySavedNoYield += thisYearsSavings;
             moneySavedWithYield *= yearlyYield;
