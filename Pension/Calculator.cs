@@ -12,8 +12,23 @@ namespace Savings
         private readonly double yearlyYield;
         private readonly double govtIntRate;
 
-        public Calculator(int savingsPeriod, int startCapital, int monthlySavings, int scheduledIncrease, 
-                          int scheduledIncreasePeriod, double yearlyYield, double govtIntRate = 1.25)
+        /// <summary>
+        /// Sets up the variables used for this savings calculator
+        /// </summary>
+        /// <param name="savingsPeriod">How many years are you saving for</param>
+        /// <param name="startCapital">How much money do you start with</param>
+        /// <param name="monthlySavings">How much do you plan to save every month</param>
+        /// <param name="yearlyYield">How much do the funds/shares grow per year</param>
+        /// <param name="govtIntRate">The estimated statslåneränta, default is 1.25% because of its lower limit</param>
+        /// <param name="scheduledIncreasePeriod">For every x years the monthlySavings should increase</param>
+        /// <param name="scheduledIncrease">For every scheduledIncreasePeriod the monthlySavings should increase by</param>
+        public Calculator(int savingsPeriod, 
+                          int startCapital, 
+                          int monthlySavings, 
+                          double yearlyYield, 
+                          double govtIntRate = 1.25, 
+                          int scheduledIncreasePeriod = 0, 
+                          int scheduledIncrease = 0)
         {
             this.startCapital = startCapital;
             this.monthlySavings = monthlySavings;
@@ -24,6 +39,11 @@ namespace Savings
             this.govtIntRate = govtIntRate;
         }
 
+        /// <summary>
+        /// Calculates how much money has been saved from the start to the end of the savings period.
+        /// </summary>
+        /// <returns>A list of Savings, where each element is the result from that year. 
+        /// The index correlates to the year the results reflects</returns>
         public List<Savings> CalculateSavings()
         {
             List<Savings> results = new List<Savings>();
@@ -37,7 +57,7 @@ namespace Savings
                 {
                     monthlySavings += scheduledIncrease;
                 }
-                Savings thisYearsResults = CalulateYearly(year, lastYearsResults.ResultWithYield, lastYearsResults.ResultNoYield);
+                Savings thisYearsResults = CalulateYearly(lastYearsResults);
                 results.Add(thisYearsResults);
 
                 lastYearsResults = thisYearsResults;
@@ -47,24 +67,19 @@ namespace Savings
         }
 
         /// <summary>
-        /// Calulate this years savings, savings with yield and tax. Modifies class members.
+        /// Calulate this years savings, savings with yield and tax, based on last years results
         /// </summary>
-        /// Calculate how much the shares are worth from last years yield, save to yearlyResult
-        /// Sum up this years savings, with no yield, save to yearlyResult
-        /// Add just the amount saved this year to yearlyResultNoYield
-        /// 
-        /// Calculate the total of this years quarterly results, for taxes
-        /// Calculate the tax for this year
-        /// Add the taxes to yearlyTax
-        /// </summary>
-        private Savings CalulateYearly(int year, double moneySavedWithYield, double moneySavedNoYield)
+        /// <param name="lastYearsResults">The last year's Savings, needed to know how much was saved last year</param>
+        private Savings CalulateYearly(Savings lastYearsResults)
         {
+            double thisYearsSavings = monthlySavings * 12;
+
             /* Start with annoying dumb stupid tax calculations
              * After each quarter, calculate the total worth of your account. Including yield/growth and any insert you've made
              * Add up each quarters results and send it off to the tax calculation
              */
             double qResultsTotal = 0;
-            double lastQuarter = moneySavedWithYield;
+            double lastQuarter = lastYearsResults.ResultWithYield;
             // for every quarter
             for (int i = 0; i < 4; i++)
             {
@@ -74,12 +89,14 @@ namespace Savings
 
             double thisYearsTax = CalculateTax(qResultsTotal);
 
-            double thisYearsSavings = monthlySavings * 12;
-            moneySavedNoYield += thisYearsSavings;
-            moneySavedWithYield *= yearlyYield;
-            moneySavedWithYield += thisYearsSavings;
-
-            return new Savings(year, govtIntRate, yearlyYield, (int)moneySavedWithYield, (int)moneySavedNoYield, (int)thisYearsTax);
+            double moneySavedNoYield = lastYearsResults.ResultNoYield + thisYearsSavings;
+            double moneySavedWithYield = lastYearsResults.ResultWithYield * yearlyYield + thisYearsSavings;
+            return new Savings(lastYearsResults.Year + 1, 
+                               govtIntRate, 
+                               yearlyYield, 
+                               (int)moneySavedWithYield, 
+                               (int)moneySavedNoYield, 
+                               (int)thisYearsTax);
         }
 
         /// <summary>
@@ -92,7 +109,6 @@ namespace Savings
 
             return savings * fourthOfYield + (monthlySavings * 3);
         }
-
 
         private double CalculateTax(double totalYearlyResult)
         {

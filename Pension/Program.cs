@@ -14,7 +14,8 @@ namespace Savings
             int scheduledIncrease = 100;
             int scheduledIncreasePeriod = 3;
 
-            Calculator calc = new Calculator(savingsPeriod, startCapital, monthlySavings, scheduledIncrease, scheduledIncreasePeriod, yearlyYield);
+            //Calculator calc = new Calculator(savingsPeriod, startCapital, monthlySavings, scheduledIncrease, scheduledIncreasePeriod, yearlyYield);
+            Calculator calc = new Calculator(savingsPeriod, startCapital, monthlySavings, yearlyYield, 1.25, scheduledIncreasePeriod, scheduledIncrease);
 
             List<Savings> results = calc.CalculateSavings();
 
