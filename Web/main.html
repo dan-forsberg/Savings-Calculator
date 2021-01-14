@@ -4,8 +4,60 @@
     <meta charset="utf8" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <script type="module" src="Main.js"></script>
+    <style>
+        body {
+            font-family: roboto;
+        }
+
+        form {
+            width: 250px;
+            float: left;
+        }
+
+        canvas {
+            float: left;
+        }
+
+        input {
+            display: block;
+            border-top: 0;
+            border-right: 0;
+            border-left: 0;
+            padding: 10px 0 5px 0;
+            margin: 3px 0 5px 0;
+            width: 144px;
+        }
+
+        .boring {
+            color: grey;
+        }
+    </style>
 </head>
 
 <body>
-    <canvas id="chart" width="400" height="400"></canvas>
+    <form>
+        <label for="startCapital">Startkapital</label>
+        <input id="startCapital" type="number" min="0" value="10000" />
+
+        <label for="monthlySavings">Månadsparande</label>
+        <input id="monthlySavings" type="number" min="0" value="250" />
+
+        <label for="savingsPeriod">Antal år: <output id="spOutput">40</output></label>
+        <input id="savingsPeriod" type="range" min="1" max="100" value="40" step="1"
+            onchange="spOutput.value = savingsPeriod.value" />
+
+        <label for="yield">Avkastning per år: <output id="yieldOutput">7</output>%</label>
+        <input id="yield" type="range" min="0" max="50" value="7" step="0.5"
+            onchange="yieldOutput.value = yield.value" />
+
+        <label class="boring" for="scheduledIncreasePeriod">Hur ofta ökar sparandet per år?</label>
+        <input class="boring" id="scheduledIncreasePeriod" type="range" min="0" max="100" value="0" />
+
+        <label class="boring" for="scheduledIncrease">Hur mycket ökar månadsparande?</label>
+        <input class="boring" id="scheduledIncrease" type="number" min="0" value="0" />
+
+        <label class="boring" for="govtIntRate">Förväntad skatt</label>
+        <input class="boring" id="govtIntRate" type="number" min="1.25" value="1.25" />
+    </form>
+    <canvas id="chart" width="900" height="700"></canvas>
 </body>
