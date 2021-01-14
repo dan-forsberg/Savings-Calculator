@@ -37,13 +37,13 @@ let myChart = new Chart(ctx, {
             label: "Sparat med avkastning",
             borderColor: "#3e95cd",
             fill: false
-        }/*,
+        },
         {
             data: savedNoYield,
             label: "Sparat utan avkastning",
             borderColor: "#8e5ea2",
             fill: false
-        },
+        },/*
         {
             data: taxes,
             label: "Skatt",
@@ -60,6 +60,7 @@ let myChart = new Chart(ctx, {
             yAxes: {
                 ticks: {
                     stepSize: 1000,
+                    precision: 0
                 }
             }
         }
