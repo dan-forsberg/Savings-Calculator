@@ -24,6 +24,8 @@ results.forEach(result => {
     savedWithYield.push(result.resultWithYield);
     savedNoYield.push(result.resultNoYield);
     taxes.push(result.resultTax);
+
+    console.log(`År ${result.year}: ${result.resultWithYield}`);
 });
 
 let myChart = new Chart(ctx, {
@@ -35,7 +37,7 @@ let myChart = new Chart(ctx, {
             label: "Sparat med avkastning",
             borderColor: "#3e95cd",
             fill: false
-        },
+        }/*,
         {
             data: savedNoYield,
             label: "Sparat utan avkastning",
@@ -47,7 +49,7 @@ let myChart = new Chart(ctx, {
             label: "Skatt",
             borderColor: "#3cba9f",
             fill: false
-        }]
+        }]*/
     },
     options: {
         title: {
