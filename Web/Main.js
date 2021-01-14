@@ -13,14 +13,40 @@ let results = calc.calculateSavings();
 let savedWithYield = [];
 let savedNoYield = [];
 let taxes = [];
-let labels;
+let chartLabels = [];
 results.forEach(result => {
-    labels.push(result.year.toString());
+    chartLabels.push(result.year.toString());
     savedWithYield.push(result.resultWithYield);
     savedNoYield.push(result.resultNoYield);
     taxes.push(result.resultTax);
 });
 let myChart = new Chart(ctx, {
     type: 'line',
-    data: savedWithYield
+    data: {
+        labels: chartLabels,
+        datasets: [{
+                data: savedWithYield,
+                label: "Sparat med avkastning",
+                borderColor: "#3e95cd",
+                fill: false
+            },
+            {
+                data: savedNoYield,
+                label: "Sparat utan avkastning",
+                borderColor: "#8e5ea2",
+                fill: false
+            },
+            {
+                data: taxes,
+                label: "Skatt",
+                borderColor: "#3cba9f",
+                fill: false
+            }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: "Resultat"
+        }
+    }
 });
