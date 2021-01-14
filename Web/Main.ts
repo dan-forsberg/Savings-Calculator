@@ -1,31 +1,32 @@
 import { Calculator } from './Calculator.js';
-
 const canvas = <HTMLCanvasElement>document.getElementById('chart');
-if (canvas === null) {
-    throw new Error("Canvas not found!");
-}
-let calc: Calculator = new Calculator(
-    10000,
-    40,
-    250,
-    1.08,
-    3,
-    100,
-    1.25
-);
-
 const ctx = canvas.getContext('2d');
 
-new Chart(ctx, {
+
+let startCapital = document.getElementById('startCapital').value;
+let monthlySavings = document.getElementById('monthlySavings').value;
+let savingsPeriod = document.getElementById('savingsPeriod').value;
+let yearlyYield = document.getElementById('yield').value;
+let schIncPeriod = document.getElementById('scheduledIncreasePeriod').value;
+let schInc = document.getElementById('scheduledIncrease').value;
+let govtIntRate = document.getElementById('govtIntRate').value;
+
+let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc, govtIntRate);
+let results = calc.calculateSavings();
+
+let savedWithYield: Array<number> = [];
+let savedNoYield: Array<number> = [];
+let taxes: Array<number> = [];
+let labels: Array<string>
+
+results.forEach(result => {
+    labels.push(result.year.toString());
+    savedWithYield.push(result.resultWithYield);
+    savedNoYield.push(result.resultNoYield);
+    taxes.push(result.resultTax);
+});
+
+let myChart = new Chart(ctx, {
     type: 'line',
-    data: {},
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
+    data: savedWithYield
 });
