@@ -55,6 +55,13 @@ let myChart = new Chart(ctx, {
         title: {
             display: true,
             text: "Resultat"
+        },
+        scales: {
+            yAxes: {
+                ticks: {
+                    stepSize: 1000,
+                }
+            }
         }
     }
 });
