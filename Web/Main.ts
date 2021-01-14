@@ -1,4 +1,4 @@
-import { Calculator, Savings } from 'Calculator.js';
+import { Calculator, Savings } from './Calculator.js';
 
 let calc: Calculator = new Calculator(
     10000,
