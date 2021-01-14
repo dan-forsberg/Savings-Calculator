@@ -7,11 +7,11 @@ let startCapital = document.getElementById('startCapital').value;
 let monthlySavings = document.getElementById('monthlySavings').value;
 let savingsPeriod = document.getElementById('savingsPeriod').value;
 let yearlyYield = document.getElementById('yield').value;
-let schIncPeriod = document.getElementById('scheduledIncreasePeriod').value;
+/*let schIncPeriod = document.getElementById('scheduledIncreasePeriod').value;
 let schInc = document.getElementById('scheduledIncrease').value;
-let govtIntRate = document.getElementById('govtIntRate').value;
+let govtIntRate = document.getElementById('govtIntRate').value;*/
 
-let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc, govtIntRate);
+let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield);//, schIncPeriod, schInc, govtIntRate);
 let results = calc.calculateSavings();
 
 let savedWithYield: Array<number> = [];
