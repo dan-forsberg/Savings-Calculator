@@ -1,6 +1,10 @@
+import Chart from 'chart.js';
 import { Calculator } from './Calculator.js';
+import React from 'react';
+// https://reactjs.org/docs/forms.html
+
 const canvas = <HTMLCanvasElement>document.getElementById('chart');
-const ctx = canvas.getContext('2d');
+const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
 
 function calculate(startCapital: number, savingsPeriod: number, monthlySavings: number, yearlyYield: number, schIncPeriod: number, schInc: number, govtIntRate: number) {
     let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc, govtIntRate);
@@ -19,9 +23,11 @@ function calculate(startCapital: number, savingsPeriod: number, monthlySavings: 
 
         console.log(`År ${result.year}: ${result.resultWithYield}`);
     });
+
+    createChart(chartLabels, savedWithYield, savedNoYield, taxes);
 }
 
-function createChart (chartLabels:Array<string>, savedWithYield: Array<number>, savedNoYield: Array<number>, taxes: Array<number>) {
+function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, savedNoYield: Array<number>, taxes: Array<number>) {
     let myChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -50,15 +56,12 @@ function createChart (chartLabels:Array<string>, savedWithYield: Array<number>, 
                 display: true,
                 text: "Resultat"
             },
-            scales: {
-                yAxes: {
-                    ticks: {
-                        stepSize: 1000,
-                        precision: 0
-                    }
+            scale: {
+                ticks: {
+                    stepSize: 100
                 }
             }
-        }
+        },
     });
 
 }
