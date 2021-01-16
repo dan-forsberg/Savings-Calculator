@@ -26,7 +26,7 @@ class SavingsForm extends React.Component {
                 <input name="moSav" type="number" min="0"
                     value={this.state.moSav} onChange={this.handleChange} />
 
-                <label htmlFor="period">Antal år: { this.state.period }<output></output></label>
+                <label htmlFor="period">Antal år: {this.state.period}<output></output></label>
                 <input name="period" type="range" min="1" max="100" step="1"
                     value={this.state.period} onChange={this.handleChange} />
 
@@ -60,7 +60,7 @@ class SavingsForm extends React.Component {
 
     handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        let yd:number = (this.state.yield / 100) + 1;
+        let yd: number = (this.state.yield / 100) + 1;
         calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc, this.state.govtIntRate);
     }
 }

@@ -27,7 +27,7 @@ function createChart(chartLabels, savedWithYield, savedNoYield, taxes) {
                     label: "Sparat med avkastning",
                     borderColor: "#3e95cd",
                     fill: false
-                } /*,
+                },
                 {
                     data: savedNoYield,
                     label: "Sparat utan avkastning",
@@ -39,19 +39,18 @@ function createChart(chartLabels, savedWithYield, savedNoYield, taxes) {
                     label: "Skatt",
                     borderColor: "#3cba9f",
                     fill: false
-                }*/
-            ]
+                }]
         },
         options: {
             title: {
                 display: true,
                 text: "Resultat"
-            },
+            } /*,
             scale: {
                 ticks: {
                     stepSize: 100
                 }
-            }
+            }*/
         },
     });
 }
