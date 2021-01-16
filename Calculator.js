@@ -1,4 +1,5 @@
-export class Calculator {
+"use strict";
+class Calculator {
     constructor(startCapital, savingsPeriod, monthlySavings, yearlyYield, scheduledIncreasePeriod = 0, scheduledIncrease = 0, govtIntRate = 1.25) {
         this.startCapital = startCapital;
         this.savingsPeriod = savingsPeriod;

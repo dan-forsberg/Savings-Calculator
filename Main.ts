@@ -1,8 +1,3 @@
-import Chart from 'chart.js';
-import { Calculator } from './Calculator.js';
-import React from 'react';
-// https://reactjs.org/docs/forms.html
-
 const canvas = <HTMLCanvasElement>document.getElementById('chart');
 const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
 
@@ -37,7 +32,7 @@ function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, 
                 label: "Sparat med avkastning",
                 borderColor: "#3e95cd",
                 fill: false
-            },
+            }/*,
             {
                 data: savedNoYield,
                 label: "Sparat utan avkastning",
@@ -49,7 +44,7 @@ function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, 
                 label: "Skatt",
                 borderColor: "#3cba9f",
                 fill: false
-            }]
+            }*/]
         },
         options: {
             title: {
@@ -63,5 +58,4 @@ function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, 
             }
         },
     });
-
 }

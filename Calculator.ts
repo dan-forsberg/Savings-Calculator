@@ -1,4 +1,4 @@
-export interface Savings {
+interface Savings {
     readonly year: number;
     readonly govtIntRate: number;
     readonly yearlyYield: number;
@@ -7,7 +7,7 @@ export interface Savings {
     readonly resultTax: number;
 }
 
-export class Calculator {
+class Calculator {
     private readonly startCapital: number;
     private monthlySavings: number;
     private readonly scheduledIncrease: number;
