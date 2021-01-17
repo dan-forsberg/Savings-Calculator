@@ -6,6 +6,8 @@ class Calculator {
     private readonly savingsPeriod: number;
     private readonly yearlyYield: number;
 
+    private cachedResults: Savings[] | undefined;
+
     constructor(startCapital: number, savingsPeriod: number, monthlySavings: number, yearlyYield: number,
         scheduledIncreasePeriod: number = 0, scheduledIncrease: number = 0) {
         this.startCapital = startCapital;
@@ -16,8 +18,11 @@ class Calculator {
         this.scheduledIncrease = scheduledIncrease;
     }
 
-    // todo: cache results
     public calculateSavings(): Savings[] {
+        if (this.cachedResults != undefined) {
+            return this.cachedResults;
+        }
+
         let results: Savings[] = [];
         // create a dummy Savings-object just to kickstart the calculations
         let lastYearsResult: Savings = {
@@ -36,6 +41,7 @@ class Calculator {
             lastYearsResult = thisYearsResult;
         }
 
+        this.cachedResults = results;
         return results;
     }
 

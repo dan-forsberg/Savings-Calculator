@@ -10,8 +10,10 @@ var Calculator = /** @class */ (function () {
         this.scheduledIncreasePeriod = scheduledIncreasePeriod;
         this.scheduledIncrease = scheduledIncrease;
     }
-    // todo: cache results
     Calculator.prototype.calculateSavings = function () {
+        if (this.cachedResults != undefined) {
+            return this.cachedResults;
+        }
         var results = [];
         // create a dummy Savings-object just to kickstart the calculations
         var lastYearsResult = {
@@ -26,6 +28,7 @@ var Calculator = /** @class */ (function () {
             results.push(thisYearsResult);
             lastYearsResult = thisYearsResult;
         }
+        this.cachedResults = results;
         return results;
     };
     Calculator.prototype.calculateYearly = function (lastYearsResult) {

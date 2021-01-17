@@ -55,11 +55,11 @@ var SavingsForm = /** @class */ (function (_super) {
                 this.state.yield,
                 "%"),
             React.createElement("input", { name: "yield", type: "range", min: "0", max: "50", step: "0.5", value: this.state.yield, onChange: this.handleChange }),
-            React.createElement("label", { className: "boring", htmlFor: "schIncPer" }, "Hur ofta \u00F6kar sparandet?"),
-            React.createElement("input", { className: "boring", name: "schIncPer", type: "number", min: "0", max: "100", value: this.state.schIncPer, onChange: this.handleChange }),
-            React.createElement("label", { className: "boring", htmlFor: "schInc" }, "Hur mycket \u00F6kar sparande?"),
-            React.createElement("input", { className: "boring", name: "schInc", type: "number", min: "0", value: this.state.schInc, onChange: this.handleChange }),
-            React.createElement("input", { type: "submit", value: "R\u00E4kna" }));
+            React.createElement("label", { htmlFor: "schIncPer" }, "Hur ofta \u00F6kar sparandet?"),
+            React.createElement("input", { name: "schIncPer", type: "number", min: "0", max: "100", value: this.state.schIncPer, onChange: this.handleChange }),
+            React.createElement("label", { htmlFor: "schInc" }, "Hur mycket \u00F6kar sparande?"),
+            React.createElement("input", { name: "schInc", type: "number", min: "0", value: this.state.schInc, onChange: this.handleChange }),
+            React.createElement("input", { className: "btn-small", id: "submit", type: "submit", value: "R\u00E4kna" }));
         return form;
     };
     SavingsForm.prototype.handleChange = function (e) {
@@ -75,7 +75,7 @@ var SavingsForm = /** @class */ (function (_super) {
     SavingsForm.prototype.displayResults = function () {
         /* Create SavingsTable */
         var results = this.calculateSavings();
-        ReactDOM.render(React.createElement(SavingsTable, { savings: results }), document.getElementById("savingsTable"));
+        ReactDOM.render(React.createElement(SavingsTable, { savings: results, maxTableLength: 15 }), document.getElementById("savingsTable"));
         /* Start with setting up data for the chart and creating the chart */
         var savedWithYield = [], savedNoYield = [], difference = [], chartLabels = [];
         results.forEach(function (result) {

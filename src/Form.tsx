@@ -37,7 +37,6 @@ class SavingsForm extends React.Component<IProps, IState> {
                 <label htmlFor="startCap">Startkapital</label>
                 <input name="startCap" type="number" min="0"
                     value={this.state.startCap} onChange={this.handleChange} />
-
                 <label htmlFor="moSav">Månadsparande</label>
                 <input name="moSav" type="number" min="0"
                     value={this.state.moSav} onChange={this.handleChange} />
@@ -50,14 +49,14 @@ class SavingsForm extends React.Component<IProps, IState> {
                 <input name="yield" type="range" min="0" max="50" step="0.5"
                     value={this.state.yield} onChange={this.handleChange} />
 
-                <label className="boring" htmlFor="schIncPer">Hur ofta ökar sparandet?</label>
-                <input className="boring" name="schIncPer" type="number" min="0" max="100"
+                <label htmlFor="schIncPer">Hur ofta ökar sparandet?</label>
+                <input name="schIncPer" type="number" min="0" max="100"
                     value={this.state.schIncPer} onChange={this.handleChange} />
 
-                <label className="boring" htmlFor="schInc">Hur mycket ökar sparande?</label>
-                <input className="boring" name="schInc" type="number" min="0"
+                <label htmlFor="schInc">Hur mycket ökar sparande?</label>
+                <input name="schInc" type="number" min="0"
                     value={this.state.schInc} onChange={this.handleChange} />
-                <input type="submit" value="Räkna" />
+                <input className="btn-small" id="submit" type="submit" value="Räkna" />
             </form>
         return form;
     }
@@ -80,8 +79,8 @@ class SavingsForm extends React.Component<IProps, IState> {
     displayResults() {
         /* Create SavingsTable */
         let results = this.calculateSavings();
-        ReactDOM.render(<SavingsTable savings={results} />, document.getElementById("savingsTable"));
-        
+        ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
+
         /* Start with setting up data for the chart and creating the chart */
         let savedWithYield: number[] = [],
             savedNoYield: number[] = [],
