@@ -1,24 +1,20 @@
 "use strict";
 const canvas = document.getElementById('chart');
 const ctx = canvas.getContext('2d');
-function calculate(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc, govtIntRate) {
-    let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc, govtIntRate);
+let chart = null;
+function calculate(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc) {
+    let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc);
     let results = calc.calculateSavings();
-    let savedWithYield = [];
-    let savedNoYield = [];
-    let taxes = [];
-    let chartLabels = [];
+    let savedWithYield = [], savedNoYield = [], chartLabels = [];
     results.forEach(result => {
         chartLabels.push(result.year.toString());
         savedWithYield.push(result.resultWithYield);
         savedNoYield.push(result.resultNoYield);
-        taxes.push(result.resultTax);
-        console.log(`År ${result.year}: ${result.resultWithYield}`);
     });
-    createChart(chartLabels, savedWithYield, savedNoYield, taxes);
+    createChart(chartLabels, savedWithYield, savedNoYield);
 }
-function createChart(chartLabels, savedWithYield, savedNoYield, taxes) {
-    let myChart = new Chart(ctx, {
+function createChart(chartLabels, savedWithYield, savedNoYield) {
+    chart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: chartLabels,
@@ -33,24 +29,37 @@ function createChart(chartLabels, savedWithYield, savedNoYield, taxes) {
                     label: "Sparat utan avkastning",
                     borderColor: "#8e5ea2",
                     fill: false
-                },
-                {
-                    data: taxes,
-                    label: "Skatt",
-                    borderColor: "#3cba9f",
-                    fill: false
                 }]
         },
         options: {
             title: {
                 display: true,
                 text: "Resultat"
-            } /*,
-            scale: {
-                ticks: {
-                    stepSize: 100
+            },
+            scales: {
+                yAxes: [{
+                        type: "linear",
+                        ticks: {
+                            /* Convert 1300000 => 1.3M, 20000 => 20K */
+                            callback: (value, index, values) => {
+                                return Math.abs(Number(value)) >= 1.0e+6
+                                    ? Math.abs(Number(value)) / 1.0e+6 + "M"
+                                    : Math.abs(Number(value)) >= 1.0e+3
+                                        ? Math.abs(Number(value)) / 1.0e+3 + "K"
+                                        : Math.abs(Number(value));
+                            }
+                        }
+                    }]
+            },
+            tooltips: {
+                callbacks: {
+                    label: (tooltipItem, data) => {
+                        if (tooltipItem.value !== undefined)
+                            return tooltipItem.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " kr";
+                        return "";
+                    }
                 }
-            }*/
+            }
         },
     });
 }

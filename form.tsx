@@ -1,4 +1,17 @@
-class SavingsForm extends React.Component {
+interface IProps {
+
+}
+
+interface IState {
+    startCap: number;
+    moSav: number;
+    period: number;
+    yield: number;
+    schIncPer: number;
+    schInc: number;
+}
+
+class SavingsForm extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -8,7 +21,6 @@ class SavingsForm extends React.Component {
             yield: 7,
             schIncPer: 0,
             schInc: 0,
-            govtIntRate: 1.25
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -34,17 +46,13 @@ class SavingsForm extends React.Component {
                 <input name="yield" type="range" min="0" max="50" step="0.5"
                     value={this.state.yield} onChange={this.handleChange} />
 
-                <label className="boring" htmlFor="schIncPer">Hur ofta ökar sparandet per år?</label>
+                <label className="boring" htmlFor="schIncPer">Hur ofta ökar sparandet?</label>
                 <input className="boring" name="schIncPer" type="number" min="0" max="100"
                     value={this.state.schIncPer} onChange={this.handleChange} />
 
-                <label className="boring" htmlFor="schInc">Hur mycket ökar månadsparande?</label>
+                <label className="boring" htmlFor="schInc">Hur mycket ökar sparande?</label>
                 <input className="boring" name="schInc" type="number" min="0"
                     value={this.state.schInc} onChange={this.handleChange} />
-
-                <label className="boring" htmlFor="govtIntRate">Förväntad skatt</label>
-                <input className="boring" name="govtIntRate" type="number" min="1.25"
-                    value={this.state.govtIntRate} onChange={this.handleChange} />
                 <input type="submit" value="Räkna" />
             </form>
         return form;
@@ -54,14 +62,15 @@ class SavingsForm extends React.Component {
         const value = e.target.value;
         this.setState({
             ...this.state,
-            [e.target.name]: value
+            /* all input is a number or float, needs to cast to a number otherwise something breaks */
+            [e.target.name]: parseFloat(value)
         });
     }
 
     handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         let yd: number = (this.state.yield / 100) + 1;
-        calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc, this.state.govtIntRate);
+        calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
     }
 }
 

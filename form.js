@@ -9,7 +9,6 @@ class SavingsForm extends React.Component {
             yield: 7,
             schIncPer: 0,
             schInc: 0,
-            govtIntRate: 1.25
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,23 +29,23 @@ class SavingsForm extends React.Component {
                 this.state.yield,
                 "%"),
             React.createElement("input", { name: "yield", type: "range", min: "0", max: "50", step: "0.5", value: this.state.yield, onChange: this.handleChange }),
-            React.createElement("label", { className: "boring", htmlFor: "schIncPer" }, "Hur ofta \u00F6kar sparandet per \u00E5r?"),
+            React.createElement("label", { className: "boring", htmlFor: "schIncPer" }, "Hur ofta \u00F6kar sparandet?"),
             React.createElement("input", { className: "boring", name: "schIncPer", type: "number", min: "0", max: "100", value: this.state.schIncPer, onChange: this.handleChange }),
-            React.createElement("label", { className: "boring", htmlFor: "schInc" }, "Hur mycket \u00F6kar m\u00E5nadsparande?"),
+            React.createElement("label", { className: "boring", htmlFor: "schInc" }, "Hur mycket \u00F6kar sparande?"),
             React.createElement("input", { className: "boring", name: "schInc", type: "number", min: "0", value: this.state.schInc, onChange: this.handleChange }),
-            React.createElement("label", { className: "boring", htmlFor: "govtIntRate" }, "F\u00F6rv\u00E4ntad skatt"),
-            React.createElement("input", { className: "boring", name: "govtIntRate", type: "number", min: "1.25", value: this.state.govtIntRate, onChange: this.handleChange }),
             React.createElement("input", { type: "submit", value: "R\u00E4kna" }));
         return form;
     }
     handleChange(e) {
         const value = e.target.value;
-        this.setState(Object.assign(Object.assign({}, this.state), { [e.target.name]: value }));
+        this.setState(Object.assign(Object.assign({}, this.state), { 
+            /* all input is a number or float, needs to cast to a number otherwise something breaks */
+            [e.target.name]: parseFloat(value) }));
     }
     handleSubmit(e) {
         e.preventDefault();
         let yd = (this.state.yield / 100) + 1;
-        calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc, this.state.govtIntRate);
+        calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
     }
 }
 ReactDOM.render(React.createElement(SavingsForm, null), document.getElementById("savingsForm"));

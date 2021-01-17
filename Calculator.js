@@ -19,7 +19,8 @@ class Calculator {
         };
         for (let year = 0; year < this.savingsPeriod; year++) {
             if (year % this.scheduledIncreasePeriod === 0) {
-                this.monthlySavings += this.scheduledIncrease;
+                this.monthlySavings = this.monthlySavings + this.scheduledIncrease;
+                console.log(`Years passed: ${year}, increasing with ${this.scheduledIncrease}, total monthly savings is ${this.monthlySavings}`);
             }
             let thisYearsResult = this.calculateYearly(lastYearsResult);
             results.push(thisYearsResult);
@@ -44,9 +45,9 @@ class Calculator {
             year: lastYearsResult.year + 1,
             govtIntRate: lastYearsResult.govtIntRate,
             yearlyYield: this.yearlyYield,
-            resultWithYield: moneySavedWithYield,
-            resultNoYield: moneySavedNoYield,
-            resultTax: thisYearsTax
+            resultWithYield: Math.round(moneySavedWithYield),
+            resultNoYield: Math.round(moneySavedNoYield),
+            resultTax: Math.round(thisYearsTax)
         };
     }
     calculateQuarterlyResults(savings) {
