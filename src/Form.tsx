@@ -28,6 +28,7 @@ class SavingsForm extends React.Component<IProps, IState> {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.graph();
     }
 
     render() {
@@ -72,6 +73,10 @@ class SavingsForm extends React.Component<IProps, IState> {
 
     handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        this.graph();
+    }
+
+    graph() {        
         /* the yield is in %, so it might be 7 for 7%, make that 1.07 instead */
         let yd: number = (this.state.yield / 100) + 1;
         calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);

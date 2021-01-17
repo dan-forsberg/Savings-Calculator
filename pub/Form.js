@@ -37,6 +37,7 @@ var SavingsForm = /** @class */ (function (_super) {
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
+        _this.graph();
         return _this;
     }
     SavingsForm.prototype.render = function () {
@@ -68,6 +69,9 @@ var SavingsForm = /** @class */ (function (_super) {
     };
     SavingsForm.prototype.handleSubmit = function (e) {
         e.preventDefault();
+        this.graph();
+    };
+    SavingsForm.prototype.graph = function () {
         /* the yield is in %, so it might be 7 for 7%, make that 1.07 instead */
         var yd = (this.state.yield / 100) + 1;
         calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);

@@ -15,31 +15,53 @@ function calculate(startCapital, savingsPeriod, monthlySavings, yearlyYield, sch
         difference.push(result.resultDiff);
         savedNoYield.push(result.resultNoYield);
     });
-    createChart(chartLabels, savedWithYield, savedNoYield, difference);
+    createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference);
 }
-function createChart(chartLabels, savedWithYield, savedNoYield, difference) {
-    chart = new Chart(ctx, {
+function createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference) {
+    var datasets = createDatasets(savedWithYield, savedNoYield, difference);
+    if (chart === null) {
+        chart = createChart(chartLabels, datasets);
+    }
+    else {
+        updateChart(chartLabels, datasets);
+    }
+}
+function updateChart(chartLabels, datasets) {
+    if (chart == undefined) {
+        console.error("Chart is undefined. Use createOrUpdateChart() instead.");
+    }
+    else {
+        chart.data.labels = chartLabels;
+        chart.data.datasets = datasets;
+        chart.update();
+    }
+}
+function createDatasets(savedWithYield, savedNoYield, difference) {
+    return [{
+            data: savedWithYield,
+            label: "Sparat med avkastning",
+            borderColor: "#3e95cd",
+            fill: false
+        },
+        {
+            data: savedNoYield,
+            label: "Sparat utan avkastning",
+            borderColor: "#8e5ea2",
+            fill: false
+        },
+        {
+            data: difference,
+            label: "Skillnad",
+            borderColor: "#3cba9f",
+            fill: false
+        }];
+}
+function createChart(chartLabels, datasets) {
+    return new Chart(ctx, {
         type: 'line',
         data: {
             labels: chartLabels,
-            datasets: [{
-                    data: savedWithYield,
-                    label: "Sparat med avkastning",
-                    borderColor: "#3e95cd",
-                    fill: false
-                },
-                {
-                    data: savedNoYield,
-                    label: "Sparat utan avkastning",
-                    borderColor: "#8e5ea2",
-                    fill: false
-                },
-                {
-                    data: difference,
-                    label: "Skillnad",
-                    borderColor: "#3cba9f",
-                    fill: false
-                }]
+            datasets: datasets
         },
         options: {
             title: {
