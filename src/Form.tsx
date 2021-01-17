@@ -49,11 +49,11 @@ class SavingsForm extends React.Component<IProps, IState> {
                 <input name="yield" type="range" min="0" max="50" step="0.5"
                     value={this.state.yield} onChange={this.handleChange} />
 
-                <label htmlFor="schIncPer">Hur ofta ökar sparandet?</label>
+                <label htmlFor="schIncPer">Vart {this.state.schIncPer} år ökar månadssparandet...</label>
                 <input name="schIncPer" type="number" min="0" max="100"
                     value={this.state.schIncPer} onChange={this.handleChange} />
 
-                <label htmlFor="schInc">Hur mycket ökar sparande?</label>
+                <label htmlFor="schInc">...med { this.state.schInc } kr</label>
                 <input name="schInc" type="number" min="0"
                     value={this.state.schInc} onChange={this.handleChange} />
                 <input className="btn-small" id="submit" type="submit" value="Räkna" />

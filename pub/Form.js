@@ -55,9 +55,15 @@ var SavingsForm = /** @class */ (function (_super) {
                 this.state.yield,
                 "%"),
             React.createElement("input", { name: "yield", type: "range", min: "0", max: "50", step: "0.5", value: this.state.yield, onChange: this.handleChange }),
-            React.createElement("label", { htmlFor: "schIncPer" }, "Hur ofta \u00F6kar sparandet?"),
+            React.createElement("label", { htmlFor: "schIncPer" },
+                "Vart ",
+                this.state.schIncPer,
+                " \u00E5r \u00F6kar m\u00E5nadssparandet..."),
             React.createElement("input", { name: "schIncPer", type: "number", min: "0", max: "100", value: this.state.schIncPer, onChange: this.handleChange }),
-            React.createElement("label", { htmlFor: "schInc" }, "Hur mycket \u00F6kar sparande?"),
+            React.createElement("label", { htmlFor: "schInc" },
+                "...med ",
+                this.state.schInc,
+                " kr"),
             React.createElement("input", { name: "schInc", type: "number", min: "0", value: this.state.schInc, onChange: this.handleChange }),
             React.createElement("input", { className: "btn-small", id: "submit", type: "submit", value: "R\u00E4kna" }));
         return form;
