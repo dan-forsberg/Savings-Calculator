@@ -1,3 +1,7 @@
+/*
+TODO: update chart if it already exists
+*/
+
 const canvas = <HTMLCanvasElement>document.getElementById('chart');
 const ctx = <CanvasRenderingContext2D>canvas.getContext('2d');
 let chart = null;
@@ -9,18 +13,20 @@ function calculate(startCapital: number, savingsPeriod: number, monthlySavings: 
 
     let savedWithYield: Array<number> = [],
         savedNoYield: Array<number> = [],
+        difference: Array<number> = [],
         chartLabels: Array<string> = [];
 
     results.forEach(result => {
         chartLabels.push(result.year.toString());
         savedWithYield.push(result.resultWithYield);
+        difference.push(result.resultDiff);
         savedNoYield.push(result.resultNoYield);
     });
 
-    createChart(chartLabels, savedWithYield, savedNoYield);
+    createChart(chartLabels, savedWithYield, savedNoYield, difference);
 }
 
-function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, savedNoYield: Array<number>) {
+function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, savedNoYield: Array<number>, difference: Array<number>) {
     chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -35,6 +41,12 @@ function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, 
                 data: savedNoYield,
                 label: "Sparat utan avkastning",
                 borderColor: "#8e5ea2",
+                fill: false
+            },
+            {
+                data: difference,
+                label: "Skillnad",
+                borderColor: "#3cba9f",
                 fill: false
             }]
         },
@@ -61,8 +73,10 @@ function createChart(chartLabels: Array<string>, savedWithYield: Array<number>, 
             tooltips: {
                 callbacks: {
                     label: (tooltipItem, data) => {
-                        if (tooltipItem.value !== undefined)
+                        if (tooltipItem.value !== undefined) {
+                            /* convert 100000 => 1 000 000 */
                             return tooltipItem.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " kr";
+                        }
                         return "";
                     }
                 }

@@ -4,7 +4,7 @@ interface Savings {
     readonly yearlyYield: number;
     readonly resultWithYield: number;
     readonly resultNoYield: number;
-    readonly resultTax: number;
+    readonly resultDiff: number;
 }
 
 class Calculator {
@@ -14,34 +14,28 @@ class Calculator {
     private readonly scheduledIncreasePeriod: number;
     private readonly savingsPeriod: number;
     private readonly yearlyYield: number;
-    private readonly govtIntRate: number;
-    private readonly fourthOfYield: number;
 
     constructor(startCapital: number, savingsPeriod: number, monthlySavings: number, yearlyYield: number,
-        scheduledIncreasePeriod: number = 0, scheduledIncrease: number = 0, govtIntRate: number = 1.25) {
+        scheduledIncreasePeriod: number = 0, scheduledIncrease: number = 0) {
         this.startCapital = startCapital;
         this.savingsPeriod = savingsPeriod;
         this.monthlySavings = monthlySavings;
         this.yearlyYield = yearlyYield;
         this.scheduledIncreasePeriod = scheduledIncreasePeriod;
         this.scheduledIncrease = scheduledIncrease;
-        this.govtIntRate = govtIntRate;
-
-        this.fourthOfYield = 1 + ((yearlyYield - 1) / 4);
     }
 
     public calculateSavings(): ReadonlyArray<Savings> {
         let results: Array<Savings> = [];
         // create a dummy Savings-object just to kickstart the calculations
         let lastYearsResult: Savings = {
-            year: 0, govtIntRate: 0, yearlyYield: 0, resultTax: 0,
+            year: 0, govtIntRate: 0, yearlyYield: 0, resultDiff: 0,
             resultNoYield: this.startCapital, resultWithYield: this.startCapital
         };
 
         for (let year: number = 0; year < this.savingsPeriod; year++) {
             if (year % this.scheduledIncreasePeriod === 0) {
                 this.monthlySavings = this.monthlySavings + this.scheduledIncrease;
-                console.log(`Years passed: ${year}, increasing with ${this.scheduledIncrease}, total monthly savings is ${this.monthlySavings}`);
             }
 
             let thisYearsResult: Savings = this.calculateYearly(lastYearsResult);
@@ -55,16 +49,7 @@ class Calculator {
 
     private calculateYearly(lastYearsResult: Savings): Savings {
         const thisYearsSavings: number = this.monthlySavings * 12;
-        let thisYearsTax: number, moneySavedWithYield: number, moneySavedNoYield: number;
-
-        // figure out how much need to be paid in taxes
-        let qResultsTotal: number = 0;
-        let lastQuarter: number = lastYearsResult.resultWithYield;
-        for (let i: number = 0; i < 4; i++) {
-            lastQuarter = this.calculateQuarterlyResults(lastQuarter);
-            qResultsTotal += lastQuarter;
-        }
-        thisYearsTax = this.calculateTax(qResultsTotal);
+        let moneySavedWithYield: number, moneySavedNoYield: number;
 
         moneySavedNoYield = lastYearsResult.resultNoYield + thisYearsSavings;
         moneySavedWithYield = lastYearsResult.resultWithYield * this.yearlyYield + thisYearsSavings;
@@ -75,16 +60,8 @@ class Calculator {
             yearlyYield: this.yearlyYield,
             resultWithYield: Math.round(moneySavedWithYield),
             resultNoYield: Math.round(moneySavedNoYield),
-            resultTax: Math.round(thisYearsTax)
+            resultDiff: Math.round(moneySavedWithYield - moneySavedNoYield)
         };
 
-    }
-
-    private calculateQuarterlyResults(savings: number): number {
-        return savings * this.fourthOfYield + (this.monthlySavings * 3);
-    }
-
-    private calculateTax(totalYearlyResult: number): number {
-        return totalYearlyResult / 4 * (this.govtIntRate / 100) * 0.3;
     }
 }

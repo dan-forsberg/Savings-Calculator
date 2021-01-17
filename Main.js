@@ -1,19 +1,23 @@
 "use strict";
+/*
+TODO: update chart if it already exists
+*/
 const canvas = document.getElementById('chart');
 const ctx = canvas.getContext('2d');
 let chart = null;
 function calculate(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc) {
     let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc);
     let results = calc.calculateSavings();
-    let savedWithYield = [], savedNoYield = [], chartLabels = [];
+    let savedWithYield = [], savedNoYield = [], difference = [], chartLabels = [];
     results.forEach(result => {
         chartLabels.push(result.year.toString());
         savedWithYield.push(result.resultWithYield);
+        difference.push(result.resultDiff);
         savedNoYield.push(result.resultNoYield);
     });
-    createChart(chartLabels, savedWithYield, savedNoYield);
+    createChart(chartLabels, savedWithYield, savedNoYield, difference);
 }
-function createChart(chartLabels, savedWithYield, savedNoYield) {
+function createChart(chartLabels, savedWithYield, savedNoYield, difference) {
     chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -28,6 +32,12 @@ function createChart(chartLabels, savedWithYield, savedNoYield) {
                     data: savedNoYield,
                     label: "Sparat utan avkastning",
                     borderColor: "#8e5ea2",
+                    fill: false
+                },
+                {
+                    data: difference,
+                    label: "Skillnad",
+                    borderColor: "#3cba9f",
                     fill: false
                 }]
         },
@@ -54,8 +64,10 @@ function createChart(chartLabels, savedWithYield, savedNoYield) {
             tooltips: {
                 callbacks: {
                     label: (tooltipItem, data) => {
-                        if (tooltipItem.value !== undefined)
+                        if (tooltipItem.value !== undefined) {
+                            /* convert 100000 => 1 000 000 */
                             return tooltipItem.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " kr";
+                        }
                         return "";
                     }
                 }

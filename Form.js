@@ -21,8 +21,7 @@ class SavingsForm extends React.Component {
             React.createElement("input", { name: "moSav", type: "number", min: "0", value: this.state.moSav, onChange: this.handleChange }),
             React.createElement("label", { htmlFor: "period" },
                 "Antal \u00E5r: ",
-                this.state.period,
-                React.createElement("output", null)),
+                this.state.period),
             React.createElement("input", { name: "period", type: "range", min: "1", max: "100", step: "1", value: this.state.period, onChange: this.handleChange }),
             React.createElement("label", { htmlFor: "yield" },
                 "Avkastning per \u00E5r: ",
@@ -44,6 +43,7 @@ class SavingsForm extends React.Component {
     }
     handleSubmit(e) {
         e.preventDefault();
+        /* the yield is in %, so it might be 7 for 7%, make that 1.07 instead */
         let yd = (this.state.yield / 100) + 1;
         calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
     }
