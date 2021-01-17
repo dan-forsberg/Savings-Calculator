@@ -1,20 +1,46 @@
 "use strict";
-class SavingsForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var SavingsForm = /** @class */ (function (_super) {
+    __extends(SavingsForm, _super);
+    function SavingsForm(props) {
+        var _this = _super.call(this, props) || this;
+        _this.state = {
             startCap: 10000,
             moSav: 250,
             period: 40,
             yield: 7,
             schIncPer: 0,
-            schInc: 0,
+            schInc: 0
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        _this.handleChange = _this.handleChange.bind(_this);
+        _this.handleSubmit = _this.handleSubmit.bind(_this);
+        return _this;
     }
-    render() {
-        let form = React.createElement("form", { onSubmit: this.handleSubmit },
+    SavingsForm.prototype.render = function () {
+        var form = React.createElement("form", { onSubmit: this.handleSubmit },
             React.createElement("label", { htmlFor: "startCap" }, "Startkapital"),
             React.createElement("input", { name: "startCap", type: "number", min: "0", value: this.state.startCap, onChange: this.handleChange }),
             React.createElement("label", { htmlFor: "moSav" }, "M\u00E5nadsparande"),
@@ -34,18 +60,18 @@ class SavingsForm extends React.Component {
             React.createElement("input", { className: "boring", name: "schInc", type: "number", min: "0", value: this.state.schInc, onChange: this.handleChange }),
             React.createElement("input", { type: "submit", value: "R\u00E4kna" }));
         return form;
-    }
-    handleChange(e) {
-        const value = e.target.value;
-        this.setState(Object.assign(Object.assign({}, this.state), { 
-            /* all input is a number or float, needs to cast to a number otherwise something breaks */
-            [e.target.name]: parseFloat(value) }));
-    }
-    handleSubmit(e) {
+    };
+    SavingsForm.prototype.handleChange = function (e) {
+        var _a;
+        var value = e.target.value;
+        this.setState(__assign(__assign({}, this.state), (_a = {}, _a[e.target.name] = parseFloat(value), _a)));
+    };
+    SavingsForm.prototype.handleSubmit = function (e) {
         e.preventDefault();
         /* the yield is in %, so it might be 7 for 7%, make that 1.07 instead */
-        let yd = (this.state.yield / 100) + 1;
+        var yd = (this.state.yield / 100) + 1;
         calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
-    }
-}
+    };
+    return SavingsForm;
+}(React.Component));
 ReactDOM.render(React.createElement(SavingsForm, null), document.getElementById("savingsForm"));

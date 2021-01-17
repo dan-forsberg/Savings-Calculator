@@ -2,14 +2,14 @@
 /*
 TODO: update chart if it already exists
 */
-const canvas = document.getElementById('chart');
-const ctx = canvas.getContext('2d');
-let chart = null;
+var canvas = document.getElementById('chart');
+var ctx = canvas.getContext('2d');
+var chart = null;
 function calculate(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc) {
-    let calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc);
-    let results = calc.calculateSavings();
-    let savedWithYield = [], savedNoYield = [], difference = [], chartLabels = [];
-    results.forEach(result => {
+    var calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc);
+    var results = calc.calculateSavings();
+    var savedWithYield = [], savedNoYield = [], difference = [], chartLabels = [];
+    results.forEach(function (result) {
         chartLabels.push(result.year.toString());
         savedWithYield.push(result.resultWithYield);
         difference.push(result.resultDiff);
@@ -51,7 +51,7 @@ function createChart(chartLabels, savedWithYield, savedNoYield, difference) {
                         type: "linear",
                         ticks: {
                             /* Convert 1300000 => 1.3M, 20000 => 20K */
-                            callback: (value, index, values) => {
+                            callback: function (value, index, values) {
                                 return Math.abs(Number(value)) >= 1.0e+6
                                     ? Math.abs(Number(value)) / 1.0e+6 + "M"
                                     : Math.abs(Number(value)) >= 1.0e+3
@@ -63,7 +63,7 @@ function createChart(chartLabels, savedWithYield, savedNoYield, difference) {
             },
             tooltips: {
                 callbacks: {
-                    label: (tooltipItem, data) => {
+                    label: function (tooltipItem, data) {
                         if (tooltipItem.value !== undefined) {
                             /* convert 100000 => 1 000 000 */
                             return tooltipItem.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " kr";
@@ -72,6 +72,6 @@ function createChart(chartLabels, savedWithYield, savedNoYield, difference) {
                     }
                 }
             }
-        },
+        }
     });
 }

@@ -1,6 +1,8 @@
 "use strict";
-class Calculator {
-    constructor(startCapital, savingsPeriod, monthlySavings, yearlyYield, scheduledIncreasePeriod = 0, scheduledIncrease = 0) {
+var Calculator = /** @class */ (function () {
+    function Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, scheduledIncreasePeriod, scheduledIncrease) {
+        if (scheduledIncreasePeriod === void 0) { scheduledIncreasePeriod = 0; }
+        if (scheduledIncrease === void 0) { scheduledIncrease = 0; }
         this.startCapital = startCapital;
         this.savingsPeriod = savingsPeriod;
         this.monthlySavings = monthlySavings;
@@ -8,26 +10,26 @@ class Calculator {
         this.scheduledIncreasePeriod = scheduledIncreasePeriod;
         this.scheduledIncrease = scheduledIncrease;
     }
-    calculateSavings() {
-        let results = [];
+    Calculator.prototype.calculateSavings = function () {
+        var results = [];
         // create a dummy Savings-object just to kickstart the calculations
-        let lastYearsResult = {
+        var lastYearsResult = {
             year: 0, govtIntRate: 0, yearlyYield: 0, resultDiff: 0,
             resultNoYield: this.startCapital, resultWithYield: this.startCapital
         };
-        for (let year = 0; year < this.savingsPeriod; year++) {
+        for (var year = 0; year < this.savingsPeriod; year++) {
             if (year % this.scheduledIncreasePeriod === 0) {
                 this.monthlySavings = this.monthlySavings + this.scheduledIncrease;
             }
-            let thisYearsResult = this.calculateYearly(lastYearsResult);
+            var thisYearsResult = this.calculateYearly(lastYearsResult);
             results.push(thisYearsResult);
             lastYearsResult = thisYearsResult;
         }
         return results;
-    }
-    calculateYearly(lastYearsResult) {
-        const thisYearsSavings = this.monthlySavings * 12;
-        let moneySavedWithYield, moneySavedNoYield;
+    };
+    Calculator.prototype.calculateYearly = function (lastYearsResult) {
+        var thisYearsSavings = this.monthlySavings * 12;
+        var moneySavedWithYield, moneySavedNoYield;
         moneySavedNoYield = lastYearsResult.resultNoYield + thisYearsSavings;
         moneySavedWithYield = lastYearsResult.resultWithYield * this.yearlyYield + thisYearsSavings;
         return {
@@ -38,5 +40,6 @@ class Calculator {
             resultNoYield: Math.round(moneySavedNoYield),
             resultDiff: Math.round(moneySavedWithYield - moneySavedNoYield)
         };
-    }
-}
+    };
+    return Calculator;
+}());
