@@ -1,12 +1,3 @@
-interface Savings {
-    readonly year: number;
-    readonly govtIntRate: number;
-    readonly yearlyYield: number;
-    readonly resultWithYield: number;
-    readonly resultNoYield: number;
-    readonly resultDiff: number;
-}
-
 class Calculator {
     private readonly startCapital: number;
     private monthlySavings: number;
@@ -25,11 +16,12 @@ class Calculator {
         this.scheduledIncrease = scheduledIncrease;
     }
 
-    public calculateSavings(): ReadonlyArray<Savings> {
-        let results: Array<Savings> = [];
+    // todo: cache results
+    public calculateSavings(): Savings[] {
+        let results: Savings[] = [];
         // create a dummy Savings-object just to kickstart the calculations
         let lastYearsResult: Savings = {
-            year: 0, govtIntRate: 0, yearlyYield: 0, resultDiff: 0,
+            year: 0, yearlyYield: 0, resultDiff: 0,
             resultNoYield: this.startCapital, resultWithYield: this.startCapital
         };
 
@@ -56,7 +48,6 @@ class Calculator {
 
         return {
             year: lastYearsResult.year + 1,
-            govtIntRate: lastYearsResult.govtIntRate,
             yearlyYield: this.yearlyYield,
             resultWithYield: Math.round(moneySavedWithYield),
             resultNoYield: Math.round(moneySavedNoYield),

@@ -2,18 +2,6 @@
 var canvas = document.getElementById('chart');
 var ctx = canvas.getContext('2d');
 var chart = null;
-function calcShowResults(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc) {
-    var calc = new Calculator(startCapital, savingsPeriod, monthlySavings, yearlyYield, schIncPeriod, schInc);
-    var results = calc.calculateSavings();
-    var savedWithYield = [], savedNoYield = [], difference = [], chartLabels = [];
-    results.forEach(function (result) {
-        chartLabels.push(result.year.toString());
-        savedWithYield.push(result.resultWithYield);
-        difference.push(result.resultDiff);
-        savedNoYield.push(result.resultNoYield);
-    });
-    createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference);
-}
 function createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference) {
     var datasets = createDatasets(savedWithYield, savedNoYield, difference);
     if (chart === null) {

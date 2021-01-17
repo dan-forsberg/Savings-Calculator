@@ -10,11 +10,12 @@ var Calculator = /** @class */ (function () {
         this.scheduledIncreasePeriod = scheduledIncreasePeriod;
         this.scheduledIncrease = scheduledIncrease;
     }
+    // todo: cache results
     Calculator.prototype.calculateSavings = function () {
         var results = [];
         // create a dummy Savings-object just to kickstart the calculations
         var lastYearsResult = {
-            year: 0, govtIntRate: 0, yearlyYield: 0, resultDiff: 0,
+            year: 0, yearlyYield: 0, resultDiff: 0,
             resultNoYield: this.startCapital, resultWithYield: this.startCapital
         };
         for (var year = 0; year < this.savingsPeriod; year++) {
@@ -34,7 +35,6 @@ var Calculator = /** @class */ (function () {
         moneySavedWithYield = lastYearsResult.resultWithYield * this.yearlyYield + thisYearsSavings;
         return {
             year: lastYearsResult.year + 1,
-            govtIntRate: lastYearsResult.govtIntRate,
             yearlyYield: this.yearlyYield,
             resultWithYield: Math.round(moneySavedWithYield),
             resultNoYield: Math.round(moneySavedNoYield),

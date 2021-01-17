@@ -28,7 +28,7 @@ class SavingsForm extends React.Component<IProps, IState> {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.graph();
+        this.displayResults();
     }
 
     render() {
@@ -73,13 +73,35 @@ class SavingsForm extends React.Component<IProps, IState> {
 
     handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        this.graph();
+        this.displayResults();
     }
 
-    graph() {        
-        /* the yield is in %, so it might be 7 for 7%, make that 1.07 instead */
+    // TODO: This feels ugly and bad, not ReactJS-y at all
+    displayResults() {
+        /* Create SavingsTable */
+        let results = this.calculateSavings();
+        ReactDOM.render(<SavingsTable savings={results} />, document.getElementById("savingsTable"));
+        
+        /* Start with setting up data for the chart and creating the chart */
+        let savedWithYield: number[] = [],
+            savedNoYield: number[] = [],
+            difference: number[] = [],
+            chartLabels: string[] = [];
+
+        results.forEach(result => {
+            chartLabels.push(result.year.toString());
+            savedWithYield.push(result.resultWithYield);
+            difference.push(result.resultDiff);
+            savedNoYield.push(result.resultNoYield);
+        });
+
+        createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference);
+    }
+
+    calculateSavings(): Savings[] {
         let yd: number = (this.state.yield / 100) + 1;
-        calculate(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
+        let calc = new Calculator(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
+        return calc.calculateSavings();
     }
 }
 
