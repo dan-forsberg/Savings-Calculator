@@ -1,12 +1,12 @@
 /*
 TODO: validate input
 */
-interface IProps {
+interface ISavingsFormProps {
 
 }
 
-type IState = {
-    startCap: number;
+interface ISavingsFormState {
+    startCapital: number;
     moSav: number;
     period: number;
     yield: number;
@@ -14,11 +14,11 @@ type IState = {
     schInc: number;
 }
 
-class SavingsForm extends React.Component<IProps, IState> {
+class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> {
     constructor(props: any) {
         super(props);
-        this.setState = {
-            startCap: 10000,
+        this.state = {
+            startCapital: 10000,
             moSav: 250,
             period: 40,
             yield: 7,
@@ -36,7 +36,7 @@ class SavingsForm extends React.Component<IProps, IState> {
             <form onSubmit={this.handleSubmit}>
                 <label htmlFor="startCap">Startkapital</label>
                 <input name="startCap" type="number" min="0"
-                    value={this.state.startCap} onChange={this.handleChange} />
+                    value={this.state.startCapital} onChange={this.handleChange} />
                 <label htmlFor="moSav">Månadsparande</label>
                 <input name="moSav" type="number" min="0"
                     value={this.state.moSav} onChange={this.handleChange} />
@@ -53,7 +53,7 @@ class SavingsForm extends React.Component<IProps, IState> {
                 <input name="schIncPer" type="number" min="0" max="100"
                     value={this.state.schIncPer} onChange={this.handleChange} />
 
-                <label htmlFor="schInc">...med { this.state.schInc } kr</label>
+                <label htmlFor="schInc">...med {this.state.schInc} kr</label>
                 <input name="schInc" type="number" min="0"
                     value={this.state.schInc} onChange={this.handleChange} />
                 <input className="btn-small" id="submit" type="submit" value="Räkna" />
@@ -80,12 +80,12 @@ class SavingsForm extends React.Component<IProps, IState> {
         /* Create SavingsTable */
         let results = this.calculateSavings();
         ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
-        
+
     }
 
     calculateSavings(): Savings[] {
         let yd: number = (this.state.yield / 100) + 1;
-        let calc = new Calculator(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
+        let calc = new Calculator(this.state.startCapital, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
         return calc.calculateSavings();
     }
 }

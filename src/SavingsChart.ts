@@ -1,17 +1,17 @@
-interface IProps {
+interface ISavingsChartProps {
     savings: Savings[];
 }
 
-interface IState {
+interface ISavingsChartState {
     savings: Savings[];
 }
 
-class SavingsChart extends React.Component<IProps, IState> {
+class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartState> {
     private readonly canvas = <HTMLCanvasElement>document.getElementById('chart');
     private readonly ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d');
     private chart: Chart | null = null;
 
-    constructor(props: IProps) {
+    constructor(props: ISavingsChartProps) {
         super(props);
     }
 

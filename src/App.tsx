@@ -1,8 +1,8 @@
-interface IProps {
+interface IAppProps {
 
 }
 
-interface IState {
+interface IAppState{
     startCap: number;
     moSav: number;
     period: number;
@@ -11,8 +11,8 @@ interface IState {
     schInc: number;
 }
 
-class App extends React.Component<IProps, IState> {
-    constructor(props: IProps) {
+class App extends React.Component<IAppProps, IAppState> {
+    constructor(props: ISavingsChartProps) {
         super(props);
     }
 
