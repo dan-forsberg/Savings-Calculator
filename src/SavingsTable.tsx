@@ -1,23 +1,30 @@
-interface SavingsTableProps {
-    savings: Savings[];
+interface ISavingsTableProps {
+    calculator: Calculator;
     maxTableLength: number;
 }
 
-interface SavingsTableRowProps {
+interface ISavingsTableState {
+    savings: Savings[];
+}
+
+interface ISavingsTableRowProps {
     savings: Savings;
     key: number;
 }
 
-class SavingsTable extends React.Component<SavingsTableProps> {
-    constructor(props: SavingsTableProps) {
+class SavingsTable extends React.Component<ISavingsTableProps, ISavingsTableState> {
+    constructor(props: ISavingsTableProps) {
         super(props);
+        this.state = {
+            savings: this.props.calculator.calculateSavings()
+        };
     }
 
     render() {
         let everyNthRow: number = 1;
-        let end = this.props.savings.length - 1;
-        if (this.props.savings.length > this.props.maxTableLength) {
-            everyNthRow = Math.round(this.props.savings.length / this.props.maxTableLength);
+        let end = this.state.savings.length - 1;
+        if (this.state.savings.length > this.props.maxTableLength) {
+            everyNthRow = Math.round(this.state.savings.length / this.props.maxTableLength);
         }
         
         let table =
@@ -32,7 +39,7 @@ class SavingsTable extends React.Component<SavingsTableProps> {
                 </thead>
                 <tbody>
                     {
-                        this.props.savings.map((saving: Savings, i: number) => {
+                        this.state.savings.map((saving: Savings, i: number) => {
                             if (i % everyNthRow == 0 || i == 0 || i == end) {
                                 return (<SavingsTableRow key={i} savings={saving} />);
                             } else {
@@ -47,8 +54,8 @@ class SavingsTable extends React.Component<SavingsTableProps> {
     }
 }
 
-class SavingsTableRow extends React.Component<SavingsTableRowProps> {
-    constructor(props: SavingsTableRowProps) {
+class SavingsTableRow extends React.Component<ISavingsTableRowProps> {
+    constructor(props: ISavingsTableRowProps) {
         super(props);
     }
 

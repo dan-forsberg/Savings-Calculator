@@ -28,8 +28,8 @@ var SavingsForm = /** @class */ (function (_super) {
     function SavingsForm(props) {
         var _this = _super.call(this, props) || this;
         _this.state = {
-            startCap: 10000,
-            moSav: 250,
+            startCapital: 10000,
+            monthlySavings: 250,
             period: 40,
             yield: 7,
             schIncPer: 0,
@@ -37,15 +37,16 @@ var SavingsForm = /** @class */ (function (_super) {
         };
         _this.handleChange = _this.handleChange.bind(_this);
         _this.handleSubmit = _this.handleSubmit.bind(_this);
-        _this.displayResults();
+        /* ugly/bad? "Forcefully" send state to parent to render table and chart */
+        _this.props.onSubmit(_this.state);
         return _this;
     }
     SavingsForm.prototype.render = function () {
         var form = React.createElement("form", { onSubmit: this.handleSubmit },
             React.createElement("label", { htmlFor: "startCap" }, "Startkapital"),
-            React.createElement("input", { name: "startCap", type: "number", min: "0", value: this.state.startCap, onChange: this.handleChange }),
+            React.createElement("input", { name: "startCap", type: "number", min: "0", value: this.state.startCapital, onChange: this.handleChange }),
             React.createElement("label", { htmlFor: "moSav" }, "M\u00E5nadsparande"),
-            React.createElement("input", { name: "moSav", type: "number", min: "0", value: this.state.moSav, onChange: this.handleChange }),
+            React.createElement("input", { name: "moSav", type: "number", min: "0", value: this.state.monthlySavings, onChange: this.handleChange }),
             React.createElement("label", { htmlFor: "period" },
                 "Antal \u00E5r: ",
                 this.state.period),
@@ -75,17 +76,17 @@ var SavingsForm = /** @class */ (function (_super) {
     };
     SavingsForm.prototype.handleSubmit = function (e) {
         e.preventDefault();
-        this.displayResults();
+        this.props.onSubmit(this.state);
     };
     // TODO: This feels ugly and bad, not ReactJS-y at all
     SavingsForm.prototype.displayResults = function () {
         /* Create SavingsTable */
-        var results = this.calculateSavings();
-        ReactDOM.render(React.createElement(SavingsTable, { savings: results, maxTableLength: 15 }), document.getElementById("savingsTable"));
+        //let results = this.calculateSavings();
+        //ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
     };
     SavingsForm.prototype.calculateSavings = function () {
         var yd = (this.state.yield / 100) + 1;
-        var calc = new Calculator(this.state.startCap, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
+        var calc = new Calculator(this.state.startCapital, this.state.period, this.state.monthlySavings, yd, this.state.schIncPer, this.state.schInc);
         return calc.calculateSavings();
     };
     return SavingsForm;

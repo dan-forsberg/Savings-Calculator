@@ -15,13 +15,17 @@ var __extends = (this && this.__extends) || (function () {
 var SavingsTable = /** @class */ (function (_super) {
     __extends(SavingsTable, _super);
     function SavingsTable(props) {
-        return _super.call(this, props) || this;
+        var _this = _super.call(this, props) || this;
+        _this.state = {
+            savings: _this.props.calculator.calculateSavings()
+        };
+        return _this;
     }
     SavingsTable.prototype.render = function () {
         var everyNthRow = 1;
-        var end = this.props.savings.length - 1;
-        if (this.props.savings.length > this.props.maxTableLength) {
-            everyNthRow = Math.round(this.props.savings.length / this.props.maxTableLength);
+        var end = this.state.savings.length - 1;
+        if (this.state.savings.length > this.props.maxTableLength) {
+            everyNthRow = Math.round(this.state.savings.length / this.props.maxTableLength);
         }
         var table = React.createElement("table", null,
             React.createElement("thead", null,
@@ -30,7 +34,7 @@ var SavingsTable = /** @class */ (function (_super) {
                     React.createElement("th", null, "Med avkastning"),
                     React.createElement("th", null, "Utan avkastning"),
                     React.createElement("th", null, "Skillnad i %"))),
-            React.createElement("tbody", null, this.props.savings.map(function (saving, i) {
+            React.createElement("tbody", null, this.state.savings.map(function (saving, i) {
                 if (i % everyNthRow == 0 || i == 0 || i == end) {
                     return (React.createElement(SavingsTableRow, { key: i, savings: saving }));
                 }

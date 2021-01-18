@@ -15,12 +15,28 @@ var __extends = (this && this.__extends) || (function () {
 var App = /** @class */ (function (_super) {
     __extends(App, _super);
     function App(props) {
-        return _super.call(this, props) || this;
+        var _this = _super.call(this, props) || this;
+        _this.getFormData = _this.getFormData.bind(_this);
+        _this.state = {
+            calc: null
+        };
+        return _this;
     }
+    App.prototype.getFormData = function (formData) {
+        var c = new Calculator(formData.startCapital, formData.period, formData.monthlySavings, formData.yield, formData.schIncPer, formData.schInc);
+        this.setState({ calc: c });
+    };
     App.prototype.render = function () {
+        var chart = (this.state.calc === null ? "" :
+            React.createElement(SavingsChart, { calculator: this.state.calc }));
+        var table = (this.state.calc === null ? "" :
+            React.createElement(SavingsTable, { calculator: this.state.calc, maxTableLength: 15 }));
         var app = React.createElement("div", null,
-            React.createElement(SavingsForm, null));
+            React.createElement(SavingsForm, { onSubmit: this.getFormData }),
+            chart,
+            table);
         return app;
     };
     return App;
 }(React.Component));
+ReactDOM.render(React.createElement(App, null), document.getElementById("app"));

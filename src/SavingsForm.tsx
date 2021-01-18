@@ -2,15 +2,17 @@
 TODO: validate input
 */
 interface ISavingsFormProps {
-
+    onSubmit: Function;
 }
 
 interface ISavingsFormState {
     startCapital: number;
-    moSav: number;
+    monthlySavings: number;
     period: number;
     yield: number;
+    /* scheduledIncreasePeriod - how /often/ should monthlySavings be increased*/
     schIncPer: number;
+    /* scheduledIncrease - how /much/ should monthlySavings be increased */
     schInc: number;
 }
 
@@ -19,7 +21,7 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
         super(props);
         this.state = {
             startCapital: 10000,
-            moSav: 250,
+            monthlySavings: 250,
             period: 40,
             yield: 7,
             schIncPer: 0,
@@ -28,7 +30,9 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.displayResults();
+
+        /* ugly/bad? "Forcefully" send state to parent to render table and chart */
+        this.props.onSubmit(this.state);
     }
 
     render() {
@@ -39,7 +43,7 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
                     value={this.state.startCapital} onChange={this.handleChange} />
                 <label htmlFor="moSav">Månadsparande</label>
                 <input name="moSav" type="number" min="0"
-                    value={this.state.moSav} onChange={this.handleChange} />
+                    value={this.state.monthlySavings} onChange={this.handleChange} />
 
                 <label htmlFor="period">Antal år: {this.state.period}</label>
                 <input name="period" type="range" min="1" max="100" step="1"
@@ -72,20 +76,20 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
 
     handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        this.displayResults();
+        this.props.onSubmit(this.state);
     }
 
     // TODO: This feels ugly and bad, not ReactJS-y at all
     displayResults() {
         /* Create SavingsTable */
-        let results = this.calculateSavings();
-        ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
+        //let results = this.calculateSavings();
+        //ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
 
     }
 
     calculateSavings(): Savings[] {
         let yd: number = (this.state.yield / 100) + 1;
-        let calc = new Calculator(this.state.startCapital, this.state.period, this.state.moSav, yd, this.state.schIncPer, this.state.schInc);
+        let calc = new Calculator(this.state.startCapital, this.state.period, this.state.monthlySavings, yd, this.state.schIncPer, this.state.schInc);
         return calc.calculateSavings();
     }
 }

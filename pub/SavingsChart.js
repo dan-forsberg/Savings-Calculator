@@ -16,38 +16,41 @@ var SavingsChart = /** @class */ (function (_super) {
     __extends(SavingsChart, _super);
     function SavingsChart(props) {
         var _this = _super.call(this, props) || this;
-        _this.canvas = document.getElementById('chart');
-        _this.ctx = _this.canvas.getContext('2d');
         _this.chart = null;
+        _this.state = {
+            savings: _this.props.calculator.calculateSavings(),
+            canvas: React.createElement("canvas", { id: "chart" })
+        };
         return _this;
     }
     SavingsChart.prototype.render = function () {
         var savedWithYield = [], savedNoYield = [], difference = [], chartLabels = [];
-        this.props.savings.forEach(function (result) {
+        this.state.savings.forEach(function (result) {
             chartLabels.push(result.year.toString());
             savedWithYield.push(result.resultWithYield);
             difference.push(result.resultDiff);
             savedNoYield.push(result.resultNoYield);
         });
-        return this.createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference);
+        this.createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference);
+        return this.state.canvas;
     };
     SavingsChart.prototype.createOrUpdateChart = function (chartLabels, savedWithYield, savedNoYield, difference) {
         var datasets = this.createDatasets(savedWithYield, savedNoYield, difference);
-        if (this.chart === null) {
-            this.chart = this.createChart(chartLabels, datasets);
+        if (this.state.chart === null) {
+            this.setState({ chart: this.createChart(chartLabels, datasets) });
         }
         else {
             this.updateChart(chartLabels, datasets);
         }
     };
     SavingsChart.prototype.updateChart = function (chartLabels, datasets) {
-        if (this.chart == undefined) {
+        if (this.state.chart == undefined) {
             console.error("Chart is undefined. Use createOrUpdateChart() instead.");
         }
         else {
-            this.chart.data.labels = chartLabels;
-            this.chart.data.datasets = datasets;
-            this.chart.update();
+            this.state.chart.data.labels = chartLabels;
+            this.state.chart.data.datasets = datasets;
+            this.state.chart.update();
         }
     };
     SavingsChart.prototype.createDatasets = function (savedWithYield, savedNoYield, difference) {
@@ -86,7 +89,9 @@ var SavingsChart = /** @class */ (function (_super) {
             }
             return "";
         };
-        return new Chart(this.ctx, {
+        //todo: fix this
+        var ctx = this.state.canvas.getContext("2d");
+        return new Chart(ctx, {
             type: 'line',
             data: {
                 labels: chartLabels,
