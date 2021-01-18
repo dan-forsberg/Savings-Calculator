@@ -5,7 +5,7 @@ interface IProps {
 
 }
 
-interface IState {
+type IState = {
     startCap: number;
     moSav: number;
     period: number;
@@ -17,7 +17,7 @@ interface IState {
 class SavingsForm extends React.Component<IProps, IState> {
     constructor(props: any) {
         super(props);
-        this.state = {
+        this.setState = {
             startCap: 10000,
             moSav: 250,
             period: 40,
@@ -80,21 +80,7 @@ class SavingsForm extends React.Component<IProps, IState> {
         /* Create SavingsTable */
         let results = this.calculateSavings();
         ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
-
-        /* Start with setting up data for the chart and creating the chart */
-        let savedWithYield: number[] = [],
-            savedNoYield: number[] = [],
-            difference: number[] = [],
-            chartLabels: string[] = [];
-
-        results.forEach(result => {
-            chartLabels.push(result.year.toString());
-            savedWithYield.push(result.resultWithYield);
-            difference.push(result.resultDiff);
-            savedNoYield.push(result.resultNoYield);
-        });
-
-        createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference);
+        
     }
 
     calculateSavings(): Savings[] {
@@ -103,5 +89,3 @@ class SavingsForm extends React.Component<IProps, IState> {
         return calc.calculateSavings();
     }
 }
-
-ReactDOM.render(<SavingsForm />, document.getElementById("savingsForm"));

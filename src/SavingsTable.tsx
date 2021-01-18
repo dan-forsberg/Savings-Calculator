@@ -1,9 +1,9 @@
-type SavingsTableProps = {
+interface SavingsTableProps {
     savings: Savings[];
     maxTableLength: number;
 }
 
-type SavingsTableRowProps = {
+interface SavingsTableRowProps {
     savings: Savings;
     key: number;
 }
