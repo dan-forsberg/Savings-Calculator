@@ -4,7 +4,7 @@ interface ISavingsTableProps {
 }
 
 interface ISavingsTableRowProps {
-    savings: Savings;
+    savings: ISavings;
     key: number;
 }
 
@@ -34,7 +34,7 @@ class SavingsTable extends React.Component<ISavingsTableProps> {
                 </thead>
                 <tbody>
                     {
-                        savings.map((saving: Savings, i: number) => {
+                        savings.map((saving: ISavings, i: number) => {
                             if (i % everyNthRow == 0 || i == 0 || i == end) {
                                 return (<SavingsTableRow key={i} savings={saving} />);
                             } else {

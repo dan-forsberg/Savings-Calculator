@@ -1,4 +1,4 @@
-interface Savings {
+interface ISavings {
     readonly year: number;
     readonly yearlyProfit: number;
     readonly resultWithProfit: number;

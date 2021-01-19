@@ -6,7 +6,7 @@ class Calculator {
     private readonly savingsPeriod: number;
     private readonly yearlyProfit: number;
 
-    private cachedResults: Savings[] | undefined;
+    private cachedResults: ISavings[] | undefined;
 
     constructor(startCapital: number, savingsPeriod: number, monthlySavings: number, yearlyProfit: number,
         scheduledIncreasePeriod: number = 0, scheduledIncrease: number = 0) {
@@ -18,14 +18,14 @@ class Calculator {
         this.scheduledIncrease = scheduledIncrease;
     }
 
-    public calculateSavings(): Savings[] {
+    public calculateSavings(): ISavings[] {
         if (this.cachedResults != undefined) {
             return this.cachedResults;
         }
 
-        let results: Savings[] = [];
+        let results: ISavings[] = [];
         // create a dummy Savings-object just to kickstart the calculations
-        let lastYearsResult: Savings = {
+        let lastYearsResult: ISavings = {
             year: 0, yearlyProfit: 0, resultDiff: 0,
             resultNoProfit: this.startCapital, resultWithProfit: this.startCapital
         };
@@ -35,7 +35,7 @@ class Calculator {
                 this.monthlySavings = this.monthlySavings + this.scheduledIncrease;
             }
 
-            let thisYearsResult: Savings = this.calculateYearly(lastYearsResult);
+            let thisYearsResult: ISavings = this.calculateYearly(lastYearsResult);
             results.push(thisYearsResult);
 
             lastYearsResult = thisYearsResult;
@@ -45,7 +45,7 @@ class Calculator {
         return results;
     }
 
-    private calculateYearly(lastYearsResult: Savings): Savings {
+    private calculateYearly(lastYearsResult: ISavings): ISavings {
         const thisYearsSavings: number = this.monthlySavings * 12;
         let moneySavedWithProfit: number, moneySavedNoProfit: number;
 

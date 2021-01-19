@@ -79,7 +79,7 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
         this.props.onSubmit(this.state);
     }
 
-    calculateSavings(): Savings[] {
+    calculateSavings(): ISavings[] {
         let yd: number = (this.state.profit / 100) + 1;
         let calc = new Calculator(this.state.startCapital, this.state.period, this.state.monthlySavings, yd, this.state.schIncPer, this.state.schInc);
         return calc.calculateSavings();
