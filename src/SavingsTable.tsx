@@ -64,14 +64,14 @@ class SavingsTableRow extends React.Component<ISavingsTableRowProps> {
     }
 
     render() {
-        let diffInProcent = Math.round((this.props.savings.resultWithYield / this.props.savings.resultNoYield) * 100);
-        let wYield = this.formatNumberNicely(this.props.savings.resultWithYield);
-        let noYield = this.formatNumberNicely(this.props.savings.resultNoYield);
+        let diffInProcent = Math.round((this.props.savings.resultWithProfit / this.props.savings.resultNoProfit) * 100);
+        let withProfit = this.formatNumberNicely(this.props.savings.resultWithProfit);
+        let noProfit = this.formatNumberNicely(this.props.savings.resultNoProfit);
         let row =
             <tr>
                 <td>{this.props.savings.year}</td>
-                <td>{wYield} kr</td>
-                <td>{noYield} kr</td>
+                <td>{withProfit} kr</td>
+                <td>{noProfit} kr</td>
                 <td>{diffInProcent}%</td>
             </tr>;
         return row;

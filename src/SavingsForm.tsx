@@ -9,7 +9,7 @@ interface ISavingsFormState {
     startCapital: number;
     monthlySavings: number;
     period: number;
-    yield: number;
+    profit: number;
     /* scheduledIncreasePeriod - how /often/ should monthlySavings be increased*/
     schIncPer: number;
     /* scheduledIncrease - how /much/ should monthlySavings be increased */
@@ -23,7 +23,7 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
             startCapital: 10000,
             monthlySavings: 250,
             period: 40,
-            yield: 7,
+            profit: 7,
             schIncPer: 0,
             schInc: 0,
         };
@@ -49,9 +49,9 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
                 <input name="period" type="range" min="1" max="100" step="1"
                     value={this.state.period} onChange={this.handleChange} />
 
-                <label htmlFor="yield">Avkastning per år: {this.state.yield}%</label>
-                <input name="yield" type="range" min="0" max="50" step="0.5"
-                    value={this.state.yield} onChange={this.handleChange} />
+                <label htmlFor="profit">Avkastning per år: {this.state.profit}%</label>
+                <input name="profit" type="range" min="0" max="50" step="0.5"
+                    value={this.state.profit} onChange={this.handleChange} />
 
                 <label htmlFor="schIncPer">Vart {this.state.schIncPer} år ökar månadssparandet...</label>
                 <input name="schIncPer" type="number" min="0" max="100"
@@ -88,7 +88,7 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
     }
 
     calculateSavings(): Savings[] {
-        let yd: number = (this.state.yield / 100) + 1;
+        let yd: number = (this.state.profit / 100) + 1;
         let calc = new Calculator(this.state.startCapital, this.state.period, this.state.monthlySavings, yd, this.state.schIncPer, this.state.schInc);
         return calc.calculateSavings();
     }

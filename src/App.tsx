@@ -20,7 +20,7 @@ class App extends React.Component<IAppProps, IAppState> {
             formData.startCapital,
             formData.period,
             formData.monthlySavings,
-            formData.yield,
+            formData.profit,
             formData.schIncPer,
             formData.schInc);
         this.setState({ calc: c });

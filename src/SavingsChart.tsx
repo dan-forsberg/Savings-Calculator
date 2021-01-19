@@ -20,23 +20,23 @@ class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartStat
     }
 
     public render() {
-        let savedWithYield: number[] = [],
-            savedNoYield: number[] = [],
+        let savedWithProfit: number[] = [],
+            savedNoProfit: number[] = [],
             difference: number[] = [],
             chartLabels: string[] = [];
 
         this.state.savings.forEach(result => {
             chartLabels.push(result.year.toString());
-            savedWithYield.push(result.resultWithYield);
+            savedWithProfit.push(result.resultWithProfit);
             difference.push(result.resultDiff);
-            savedNoYield.push(result.resultNoYield);
+            savedNoProfit.push(result.resultNoProfit);
         });
-        this.createOrUpdateChart(chartLabels, savedWithYield, savedNoYield, difference);
+        this.createOrUpdateChart(chartLabels, savedWithProfit, savedNoProfit, difference);
         return this.state.canvas;
     }
 
-    public createOrUpdateChart(chartLabels: string[], savedWithYield: number[], savedNoYield: number[], difference: number[]) {
-        const datasets = this.createDatasets(savedWithYield, savedNoYield, difference);
+    public createOrUpdateChart(chartLabels: string[], savedWithProfit: number[], savedNoProfit: number[], difference: number[]) {
+        const datasets = this.createDatasets(savedWithProfit, savedNoProfit, difference);
         if (this.state.chart === null) {
             this.setState({ chart: this.createChart(chartLabels, datasets) });
         } else {
@@ -54,15 +54,15 @@ class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartStat
         }
     }
 
-    private createDatasets(savedWithYield: number[], savedNoYield: number[], difference: number[]): Chart.ChartDataSets[] {
+    private createDatasets(savedWithProfit: number[], savedNoProfit: number[], difference: number[]): Chart.ChartDataSets[] {
         return [{
-            data: savedWithYield,
+            data: savedWithProfit,
             label: "Sparat med avkastning",
             borderColor: "#3e95cd",
             fill: false
         },
         {
-            data: savedNoYield,
+            data: savedNoProfit,
             label: "Sparat utan avkastning",
             borderColor: "#8e5ea2",
             fill: false
