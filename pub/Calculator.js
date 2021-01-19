@@ -12,10 +12,8 @@ var Calculator = /** @class */ (function () {
     }
     Calculator.prototype.calculateSavings = function () {
         if (this.cachedResults != undefined) {
-            console.log("cachedresults returned");
             return this.cachedResults;
         }
-        console.log("calculating...");
         var results = [];
         // create a dummy Savings-object just to kickstart the calculations
         var lastYearsResult = {
