@@ -19,7 +19,8 @@ Every instance of calculator uses the same parameters, so `calculateSavings()` a
 ~~Code is not perfect, currently Form.tsx is also a parent to Table.tsx and also interacts with Calculator.ts. Would like to make a parent for Form.tsx so it's just responsible for the form.~~
 Now App.tsx is the parent to {SavingsForm.tsx, SavingsChart.tsx, SavingsTable.tsx}. 
 
-However chart doesn't actually render until it's been rendered the first time. This is because it requires to know the canvas context, but it cannot until the actual <canvas> has been rendered.
+~~However chart doesn't actually render until it's been rendered the first time. This is because it requires to know the canvas context, but it cannot until the actual <canvas> has been rendered.~~
+Setting ctx in state fixed this.
 
 Probably needs to be cleaned up and refactored.
 

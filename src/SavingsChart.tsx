@@ -2,14 +2,20 @@ interface ISavingsChartProps {
     calculator: Calculator;
 }
 
-class SavingsChart extends React.Component<ISavingsChartProps> {
+interface ISavingsChartState {
+    ctx: CanvasRenderingContext2D | null;
+}
+
+class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartState> {
     private canvas: JSX.Element;
     private chart: Chart | null = null;
-    private ctx: CanvasRenderingContext2D | null = null;
 
     constructor(props: ISavingsChartProps) {
         super(props);
-        this.canvas = <canvas id="chart" ref={(c) => c != null ? this.ctx = c.getContext("2d") : console.error("c is null")}></canvas>;
+        this.state = {
+            ctx: null
+        };
+        this.canvas = <canvas id="chart" ref={(c) => c != null ? this.setState({ ctx: c.getContext("2d")}) : console.error("c is null")}></canvas>;
     }
 
     public render() {
@@ -86,10 +92,10 @@ class SavingsChart extends React.Component<ISavingsChartProps> {
             return "";
         }
 
-        if (this.ctx == null)
+        if (this.state.ctx == null)
             return null;
         
-        return new Chart(this.ctx, {
+        return new Chart(this.state.ctx, {
             type: 'line',
             data: {
                 labels: chartLabels,

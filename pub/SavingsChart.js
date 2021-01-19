@@ -17,8 +17,10 @@ var SavingsChart = /** @class */ (function (_super) {
     function SavingsChart(props) {
         var _this = _super.call(this, props) || this;
         _this.chart = null;
-        _this.ctx = null;
-        _this.canvas = React.createElement("canvas", { id: "chart", ref: function (c) { return c != null ? _this.ctx = c.getContext("2d") : console.error("c is null"); } });
+        _this.state = {
+            ctx: null
+        };
+        _this.canvas = React.createElement("canvas", { id: "chart", ref: function (c) { return c != null ? _this.setState({ ctx: c.getContext("2d") }) : console.error("c is null"); } });
         return _this;
     }
     SavingsChart.prototype.render = function () {
@@ -88,9 +90,9 @@ var SavingsChart = /** @class */ (function (_super) {
             }
             return "";
         };
-        if (this.ctx == null)
+        if (this.state.ctx == null)
             return null;
-        return new Chart(this.ctx, {
+        return new Chart(this.state.ctx, {
             type: 'line',
             data: {
                 labels: chartLabels,
