@@ -79,14 +79,6 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
         this.props.onSubmit(this.state);
     }
 
-    // TODO: This feels ugly and bad, not ReactJS-y at all
-    displayResults() {
-        /* Create SavingsTable */
-        //let results = this.calculateSavings();
-        //ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
-
-    }
-
     calculateSavings(): Savings[] {
         let yd: number = (this.state.profit / 100) + 1;
         let calc = new Calculator(this.state.startCapital, this.state.period, this.state.monthlySavings, yd, this.state.schIncPer, this.state.schInc);

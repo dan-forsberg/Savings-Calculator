@@ -3,32 +3,27 @@ interface ISavingsTableProps {
     maxTableLength: number;
 }
 
-interface ISavingsTableState {
-    savings: Savings[];
-}
-
 interface ISavingsTableRowProps {
     savings: Savings;
     key: number;
 }
 
-class SavingsTable extends React.Component<ISavingsTableProps, ISavingsTableState> {
+class SavingsTable extends React.Component<ISavingsTableProps> {
     constructor(props: ISavingsTableProps) {
         super(props);
-        this.state = {
-            savings: this.props.calculator.calculateSavings()
-        };
     }
 
     render() {
+        let savings = this.props.calculator.calculateSavings();
+
         let everyNthRow: number = 1;
-        let end = this.state.savings.length - 1;
-        if (this.state.savings.length > this.props.maxTableLength) {
-            everyNthRow = Math.round(this.state.savings.length / this.props.maxTableLength);
+        let end = savings.length - 1;
+        if (savings.length > this.props.maxTableLength) {
+            everyNthRow = Math.round(savings.length / this.props.maxTableLength);
         }
-        
+
         let table =
-            <table>
+            <table id="savingsTable">
                 <thead>
                     <tr>
                         <th>År</th>
@@ -39,7 +34,7 @@ class SavingsTable extends React.Component<ISavingsTableProps, ISavingsTableStat
                 </thead>
                 <tbody>
                     {
-                        this.state.savings.map((saving: Savings, i: number) => {
+                        savings.map((saving: Savings, i: number) => {
                             if (i % everyNthRow == 0 || i == 0 || i == end) {
                                 return (<SavingsTableRow key={i} savings={saving} />);
                             } else {
@@ -59,7 +54,7 @@ class SavingsTableRow extends React.Component<ISavingsTableRowProps> {
         super(props);
     }
 
-    formatNumberNicely(value:number):string {
+    formatNumberNicely(value: number): string {
         return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
 

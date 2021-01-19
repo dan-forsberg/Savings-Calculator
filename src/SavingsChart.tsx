@@ -2,21 +2,14 @@ interface ISavingsChartProps {
     calculator: Calculator;
 }
 
-interface ISavingsChartState {
-    savings: Savings[];
-    canvas: JSX.Element;
-    chart?: Chart;
-}
-
-class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartState> {
+class SavingsChart extends React.Component<ISavingsChartProps> {
+    private canvas: JSX.Element;
     private chart: Chart | null = null;
+    private ctx: CanvasRenderingContext2D | null = null;
 
     constructor(props: ISavingsChartProps) {
-    super(props);
-    this.state = {
-        savings: this.props.calculator.calculateSavings(),
-        canvas: <canvas id="chart"></canvas>
-    };
+        super(props);
+        this.canvas = <canvas id="chart" ref={(c) => c != null ? this.ctx = c.getContext("2d") : console.error("c is null")}></canvas>;
     }
 
     public render() {
@@ -25,32 +18,33 @@ class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartStat
             difference: number[] = [],
             chartLabels: string[] = [];
 
-        this.state.savings.forEach(result => {
+        let savings = this.props.calculator.calculateSavings();
+        savings.forEach(result => {
             chartLabels.push(result.year.toString());
             savedWithProfit.push(result.resultWithProfit);
             difference.push(result.resultDiff);
             savedNoProfit.push(result.resultNoProfit);
         });
         this.createOrUpdateChart(chartLabels, savedWithProfit, savedNoProfit, difference);
-        return this.state.canvas;
+        return <div id="chartContainer">{this.canvas}</div>;
     }
 
     public createOrUpdateChart(chartLabels: string[], savedWithProfit: number[], savedNoProfit: number[], difference: number[]) {
         const datasets = this.createDatasets(savedWithProfit, savedNoProfit, difference);
-        if (this.state.chart === null) {
-            this.setState({ chart: this.createChart(chartLabels, datasets) });
+        if (this.chart === null) {
+            this.chart = this.createChart(chartLabels, datasets);
         } else {
             this.updateChart(chartLabels, datasets);
         }
     }
 
     private updateChart(chartLabels: string[], datasets: Chart.ChartDataSets[]): void {
-        if (this.state.chart == undefined) {
+        if (this.chart == undefined) {
             console.error("Chart is undefined. Use createOrUpdateChart() instead.");
         } else {
-            this.state.chart.data.labels = chartLabels;
-            this.state.chart.data.datasets = datasets;
-            this.state.chart.update();
+            this.chart.data.labels = chartLabels;
+            this.chart.data.datasets = datasets;
+            this.chart.update();
         }
     }
 
@@ -75,7 +69,7 @@ class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartStat
         }];
     }
 
-    private createChart(chartLabels: string[], datasets: Chart.ChartDataSets[]): Chart {
+    private createChart(chartLabels: string[], datasets: Chart.ChartDataSets[]): Chart | null {
         /* Convert 1300000 => 1.3M, 20000 => 20K */
         const yAxisFormatter = (value: number | string, index: number, values: number[] | string[]): string | number => {
             return Math.abs(Number(value)) >= 1.0e+6
@@ -92,9 +86,10 @@ class SavingsChart extends React.Component<ISavingsChartProps, ISavingsChartStat
             return "";
         }
 
-        //todo: fix this
-        let ctx = this.state.canvas.getContext("2d");
-        return new Chart(ctx, {
+        if (this.ctx == null)
+            return null;
+        
+        return new Chart(this.ctx, {
             type: 'line',
             data: {
                 labels: chartLabels,

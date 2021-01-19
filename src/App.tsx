@@ -16,11 +16,13 @@ class App extends React.Component<IAppProps, IAppState> {
     }
 
     getFormData(formData: ISavingsFormState) {
+        // the form gives you literal procent, so make 7% -> 1.07
+        let profit = 1 + formData.profit / 100;
         let c = new Calculator(
             formData.startCapital,
             formData.period,
             formData.monthlySavings,
-            formData.profit,
+            profit,
             formData.schIncPer,
             formData.schInc);
         this.setState({ calc: c });

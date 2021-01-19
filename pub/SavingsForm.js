@@ -31,7 +31,7 @@ var SavingsForm = /** @class */ (function (_super) {
             startCapital: 10000,
             monthlySavings: 250,
             period: 40,
-            yield: 7,
+            profit: 7,
             schIncPer: 0,
             schInc: 0
         };
@@ -51,11 +51,11 @@ var SavingsForm = /** @class */ (function (_super) {
                 "Antal \u00E5r: ",
                 this.state.period),
             React.createElement("input", { name: "period", type: "range", min: "1", max: "100", step: "1", value: this.state.period, onChange: this.handleChange }),
-            React.createElement("label", { htmlFor: "yield" },
+            React.createElement("label", { htmlFor: "profit" },
                 "Avkastning per \u00E5r: ",
-                this.state.yield,
+                this.state.profit,
                 "%"),
-            React.createElement("input", { name: "yield", type: "range", min: "0", max: "50", step: "0.5", value: this.state.yield, onChange: this.handleChange }),
+            React.createElement("input", { name: "profit", type: "range", min: "0", max: "50", step: "0.5", value: this.state.profit, onChange: this.handleChange }),
             React.createElement("label", { htmlFor: "schIncPer" },
                 "Vart ",
                 this.state.schIncPer,
@@ -78,14 +78,8 @@ var SavingsForm = /** @class */ (function (_super) {
         e.preventDefault();
         this.props.onSubmit(this.state);
     };
-    // TODO: This feels ugly and bad, not ReactJS-y at all
-    SavingsForm.prototype.displayResults = function () {
-        /* Create SavingsTable */
-        //let results = this.calculateSavings();
-        //ReactDOM.render(<SavingsTable savings={results} maxTableLength={15} />, document.getElementById("savingsTable"));
-    };
     SavingsForm.prototype.calculateSavings = function () {
-        var yd = (this.state.yield / 100) + 1;
+        var yd = (this.state.profit / 100) + 1;
         var calc = new Calculator(this.state.startCapital, this.state.period, this.state.monthlySavings, yd, this.state.schIncPer, this.state.schInc);
         return calc.calculateSavings();
     };

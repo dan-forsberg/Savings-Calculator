@@ -23,7 +23,9 @@ var App = /** @class */ (function (_super) {
         return _this;
     }
     App.prototype.getFormData = function (formData) {
-        var c = new Calculator(formData.startCapital, formData.period, formData.monthlySavings, formData.yield, formData.schIncPer, formData.schInc);
+        // the form gives you literal procent, so make 7% -> 1.07
+        var profit = 1 + formData.profit / 100;
+        var c = new Calculator(formData.startCapital, formData.period, formData.monthlySavings, profit, formData.schIncPer, formData.schInc);
         this.setState({ calc: c });
     };
     App.prototype.render = function () {

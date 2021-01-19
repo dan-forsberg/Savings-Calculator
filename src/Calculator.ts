@@ -20,8 +20,10 @@ class Calculator {
 
     public calculateSavings(): Savings[] {
         if (this.cachedResults != undefined) {
+            console.log("cachedresults returned");
             return this.cachedResults;
         }
+        console.log("calculating...");
 
         let results: Savings[] = [];
         // create a dummy Savings-object just to kickstart the calculations
