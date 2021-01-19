@@ -78,10 +78,5 @@ var SavingsForm = /** @class */ (function (_super) {
         e.preventDefault();
         this.props.onSubmit(this.state);
     };
-    SavingsForm.prototype.calculateSavings = function () {
-        var yd = (this.state.profit / 100) + 1;
-        var calc = new Calculator(this.state.startCapital, this.state.period, this.state.monthlySavings, yd, this.state.schIncPer, this.state.schInc);
-        return calc.calculateSavings();
-    };
     return SavingsForm;
 }(React.Component));
