@@ -32,7 +32,7 @@ var App = /** @class */ (function (_super) {
         var chart = (this.state.calc === null ? "" :
             React.createElement(SavingsChart, { calculator: this.state.calc }));
         var table = (this.state.calc === null ? "" :
-            React.createElement(SavingsTable, { calculator: this.state.calc, maxTableLength: 15 }));
+            React.createElement(SavingsTable, { calculator: this.state.calc, maxTableLength: 9 }));
         var app = React.createElement("div", null,
             React.createElement(SavingsForm, { onSubmit: this.getFormData }),
             chart,
