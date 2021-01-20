@@ -7,13 +7,14 @@ The graph/chart is made using Chart.JS. The form and table is made using React.
 
 # Design
 The calculation is made with Calculator.ts. It takes parameters like a start capital, monthly savings and profit (how much the stock market grows yearly).
-It basically does `(start_capital + monthly_savings) * profit^years`, except in a for loop. This is because the monthly profit can increase which is the whole idea of the project.
+It basically does `(start_capital + monthly_savings) * profit^years`, except in a for loop. This is because the monthly savings can increase which is the whole idea of the project.
 
 Every instance of calculator uses the same parameters, so `calculateSavings()` actually "caches" it's results to avoid doing the same calculations more than once. This is made use of in `SavingsChart.tsx` and `SavingsTable.tsx`.
 
 `App.tsx` is the parent to all elements. When the `Form` is submitted it sends its state back to `App` through a callback. App then renders the table and chart.
 `App` sends a `Calculator` instance as a prop to both the table and chart component. They can then get the an array of `Savings` through `calculateSavings()` which is cached, so both components don't trigger an actual calculation.
 
+I'm not using `react-chartjs-2` and instead doing my own wrapping around Chart.JS. This is because react-chartjs-2 seems to be unmaintained at the moment and because I don't want to use libraries etc unless I actually need them. This project just has one simple chart which doesn't need to be unmounted etc, so doing my own wrapping makes sense.
 
 # TODO
 ~~Code is not perfect, currently Form.tsx is also a parent to Table.tsx and also interacts with Calculator.ts. Would like to make a parent for Form.tsx so it's just responsible for the form.~~
