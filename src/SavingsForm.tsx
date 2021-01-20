@@ -38,11 +38,11 @@ class SavingsForm extends React.Component<ISavingsFormProps, ISavingsFormState> 
     render() {
         let form =
             <form onSubmit={this.handleSubmit}>
-                <label htmlFor="startCap">Startkapital</label>
-                <input name="startCap" type="number" min="0"
+                <label htmlFor="startCapital">Startkapital</label>
+                <input name="startCapital" type="number" min="0"
                     value={this.state.startCapital} onChange={this.handleChange} />
-                <label htmlFor="moSav">Månadsparande</label>
-                <input name="moSav" type="number" min="0"
+                <label htmlFor="monthlySavings">Månadsparande</label>
+                <input name="monthlySavings" type="number" min="0"
                     value={this.state.monthlySavings} onChange={this.handleChange} />
 
                 <label htmlFor="period">Antal år: {this.state.period}</label>
