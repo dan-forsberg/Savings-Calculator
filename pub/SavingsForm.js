@@ -43,10 +43,10 @@ var SavingsForm = /** @class */ (function (_super) {
     }
     SavingsForm.prototype.render = function () {
         var form = React.createElement("form", { onSubmit: this.handleSubmit },
-            React.createElement("label", { htmlFor: "startCap" }, "Startkapital"),
-            React.createElement("input", { name: "startCap", type: "number", min: "0", value: this.state.startCapital, onChange: this.handleChange }),
-            React.createElement("label", { htmlFor: "moSav" }, "M\u00E5nadsparande"),
-            React.createElement("input", { name: "moSav", type: "number", min: "0", value: this.state.monthlySavings, onChange: this.handleChange }),
+            React.createElement("label", { htmlFor: "startCapital" }, "Startkapital"),
+            React.createElement("input", { name: "startCapital", type: "number", min: "0", value: this.state.startCapital, onChange: this.handleChange }),
+            React.createElement("label", { htmlFor: "monthlySavings" }, "M\u00E5nadsparande"),
+            React.createElement("input", { name: "monthlySavings", type: "number", min: "0", value: this.state.monthlySavings, onChange: this.handleChange }),
             React.createElement("label", { htmlFor: "period" },
                 "Antal \u00E5r: ",
                 this.state.period),
