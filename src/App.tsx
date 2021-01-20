@@ -33,7 +33,7 @@ class App extends React.Component<IAppProps, IAppState> {
             <SavingsChart calculator={this.state.calc} />
         );
         let table = (this.state.calc === null ? "" :
-            <SavingsTable calculator={this.state.calc} maxTableLength={15} />
+            <SavingsTable calculator={this.state.calc} maxTableLength={9} />
         );
 
         let app =
