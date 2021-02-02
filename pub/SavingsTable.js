@@ -64,7 +64,7 @@ var SavingsTableRow = /** @class */ (function (_super) {
                 noProfit,
                 " kr"),
             React.createElement("td", null,
-                diffInProcent,
+                diffInProcent - 100,
                 "%"));
         return row;
     };
