@@ -16,9 +16,18 @@ onMount(() => {
 });
 
 function update() {
+	// change 7 -> 1.07
 	let profit = 1 + yearlyProfit / 100;
-
-	calculator.set(new Calculator(startCapital, savingsPeriod, monthlySavings, profit, schIncPeriod, schIncAmount));
+	calculator.set(
+		new Calculator(
+			startCapital,
+			savingsPeriod,
+			monthlySavings,
+			profit,
+			schIncPeriod,
+			schIncAmount
+		)
+	);
 }
 </script>
 
