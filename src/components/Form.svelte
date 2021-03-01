@@ -1,5 +1,7 @@
 <script lang="ts">
-import params from "../parameters";
+import Calculator from "../scripts/calculator";
+import calculator from "../calculatorStore";
+
 import { onMount } from "svelte";
 
 let startCapital = 10000,
@@ -13,17 +15,10 @@ onMount(() => {
 	update();
 });
 
-// Set the variables in the store only when submitting
-// Otherwise the chart and table will be updated unnecessarily often
 function update() {
-	params.set({
-		startCapital,
-		monthlySavings,
-		savingsPeriod,
-		yearlyProfit,
-		schIncAmount,
-		schIncPeriod,
-	});
+	let profit = 1 + yearlyProfit / 100;
+
+	calculator.set(new Calculator(startCapital, savingsPeriod, monthlySavings, profit, schIncPeriod, schIncAmount));
 }
 </script>
 
