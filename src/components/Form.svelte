@@ -1,37 +1,36 @@
 <script lang="ts">
-	import params from '../parameters';
-	import { onMount } from 'svelte';
+import params from "../parameters";
+import { onMount } from "svelte";
 
-	let startCapital = 10000,
-		monthlySavings = 250,
-		savingsPeriod = 40,
-		yearlyProfit = 7,
-		schIncAmount = 100,
-		schIncPeriod = 5;
+let startCapital = 10000,
+	monthlySavings = 250,
+	savingsPeriod = 40,
+	yearlyProfit = 7,
+	schIncAmount = 100,
+	schIncPeriod = 5;
 
-	onMount(() => {
-		update();
+onMount(() => {
+	update();
+});
+
+// Set the variables in the store only when submitting
+// Otherwise the chart and table will be updated unnecessarily often
+function update() {
+	params.set({
+		startCapital,
+		monthlySavings,
+		savingsPeriod,
+		yearlyProfit,
+		schIncAmount,
+		schIncPeriod,
 	});
-
-	// Set the variables in the store only when submitting
-	// Otherwise the chart and table will be updated unnecessarily often
-	function update() {
-		params.set({
-			startCapital,
-			monthlySavings,
-			savingsPeriod,
-			yearlyProfit,
-			schIncAmount,
-			schIncPeriod,
-		});
-	}
+}
 </script>
 
 <form
 	on:submit|preventDefault={() => {
 		update();
-	}}
->
+	}}>
 	<label for="startCapital">Startkapital</label>
 	<input name="startCapital" type="number" min="0" bind:value={startCapital} />
 
