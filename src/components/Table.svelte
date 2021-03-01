@@ -6,6 +6,7 @@ export let maxTableLength = 15;
 let savings = [];
 calculatorStore.subscribe((newCalc) => {
 	let allSavings = newCalc.calculateSavings();
+
 	let everyNthRow = 1;
 	let end = savings.length - 1;
 	if (allSavings.length > maxTableLength) {
@@ -17,6 +18,9 @@ calculatorStore.subscribe((newCalc) => {
 			savings.push(saving);
 		}
 	});
+
+	// force svelte to update
+	savings = savings;
 });
 </script>
 
