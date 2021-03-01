@@ -1,7 +1,7 @@
 <script lang="ts">
 import calculatorStore from "../calculatorStore";
 import TableRow from "./TableRow.svelte";
-export let maxTableLength = 15;
+export let maxTableLength = 10;
 
 let savings = [];
 calculatorStore.subscribe((newCalc) => {
