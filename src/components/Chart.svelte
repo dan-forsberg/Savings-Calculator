@@ -136,3 +136,9 @@ function createChart(chartLabels: string[], datasets: Chart.ChartDataSets[]): Ch
 <div>
 	<canvas id="savingsChart" />
 </div>
+
+<style>
+canvas {
+	width: 100%;
+}
+</style>

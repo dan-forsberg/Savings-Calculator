@@ -26,6 +26,9 @@ import Table from "./components/Table.svelte";
 </div>
 
 <style>
+:global(body) {
+}
+
 #description {
 	margin-left: 1em;
 	margin-right: 1em;
@@ -37,9 +40,7 @@ h1 {
 #container {
 	width: 100%;
 	max-width: 100%;
-
 	display: flex;
-
 	margin-top: 2em;
 }
 
@@ -54,6 +55,34 @@ h1 {
 }
 
 @media screen and (max-width: 1400px) {
+	#container {
+		flex-wrap: wrap;
+	}
+
+	#form,
+	#table {
+		flex-grow: 1;
+	}
+
+	#chart {
+		order: 3;
+	}
+}
+
+@media screen and (max-width: 1000px) {
+	#form,
+	#table,
+	#chart {
+		width: 100%;
+	}
+
+	#chart {
+		order: 2;
+	}
+}
+
+/* 
+@media screen and (max-width: 1400px) {
 	#description {
 		margin-left: 2em;
 		margin-right: 2em;
@@ -63,14 +92,20 @@ h1 {
 		flex-wrap: wrap;
 	}
 
-	#chart {
-		order: 3;
-	}
-
 	#form,
 	#table {
 		margin: 2em;
 		flex-grow: 2;
 	}
+
+	#chart {
+		order: 3;
+	}
 }
+
+@media screen and (max-width: 1200px) {
+	#chart {
+		order: unset;
+	}
+}*/
 </style>
