@@ -26,9 +26,6 @@ import Table from "./components/Table.svelte";
 </div>
 
 <style>
-:global(body) {
-}
-
 #description {
 	margin-left: 1em;
 	margin-right: 1em;
