@@ -2,7 +2,7 @@
 	"name": "svelte-app",
 	"version": "1.0.0",
 	"scripts": {
-		"build": "rollup -c && sed -i \"s:href='/:href=':g\" build/index.html && sed -i \"s:src='/:src=':g\" build/index.html",
+		"build": "rollup -c && cd public/build; sed -i \"s:href='/:href=':g\" index.html && sed -i \"s:src='/:src=':g\" index.html",
 		"dev": "rollup -c -w",
 		"start": "sirv public",
 		"validate": "svelte-check"
