@@ -8,13 +8,13 @@ calculatorStore.subscribe((newCalc) => {
 	let allSavings = newCalc.calculateSavings();
 
 	let everyNthRow = 1;
-	let end = savings.length - 1;
+	let end = allSavings.length - 1;
 	if (allSavings.length > maxTableLength) {
 		everyNthRow = Math.round(allSavings.length / maxTableLength);
 	}
 
 	allSavings.map((saving, i) => {
-		if (i % everyNthRow == 0 || i == 0 || i == end) {
+		if (i == 0 || i % everyNthRow == 0 || i == end) {
 			savings.push(saving);
 		}
 	});
