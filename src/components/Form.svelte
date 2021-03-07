@@ -9,7 +9,9 @@ let startCapital = 10000,
 	savingsPeriod = 40,
 	yearlyProfit = 7,
 	schIncAmount = 100,
-	schIncPeriod = 5;
+	schIncPeriod = 5,
+	goal = false,
+	goalAmount = -1;
 
 onMount(() => {
 	update();
@@ -45,8 +47,27 @@ function update() {
 		<input id="monthlySavings" type="number" min="0" bind:value={monthlySavings} />
 	</div>
 	<div class="input-field">
-		<label class="active" for="period">Antal år: </label>
-		<input id="period" type="number" min="1" max="100" step="1" bind:value={savingsPeriod} />
+		<div class="switch">
+			<label>
+				Off
+				<input bind:value={goal} type="checkbox" />
+				<span class="lever" />
+				On
+			</label>
+		</div>
+		{#if goal}
+			<label class="active" for="goalAmount">Målvärde: </label>
+			<input id="goalAmount" type="number" bind:value={goalAmount} />
+		{:else}
+			<label class="active" for="period">Antal år: </label>
+			<input
+				id="period"
+				type="number"
+				min="1"
+				max="100"
+				step="1"
+				bind:value={savingsPeriod} />
+		{/if}
 	</div>
 	<div class="input-field">
 		<label class="active" for="profit">Avkastning per år: {yearlyProfit}%</label>
