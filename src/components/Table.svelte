@@ -3,7 +3,7 @@ import calculatorStore from "../calculatorStore";
 import TableRow from "./TableRow.svelte";
 export let maxTableLength = 10;
 
-let savings = [];
+let selectedSavings = [];
 calculatorStore.subscribe((newCalc) => {
 	let allSavings = newCalc.calculateSavings();
 
@@ -13,12 +13,12 @@ calculatorStore.subscribe((newCalc) => {
 		everyNthRow = Math.round(allSavings.length / maxTableLength);
 	}
 
-	savings = allSavings.filter(
+	selectedSavings = allSavings.filter(
 		(_, index) => index == 0 || index % everyNthRow == 0 || index == end
 	);
 
 	// force svelte to update
-	savings = savings;
+	selectedSavings = selectedSavings;
 });
 </script>
 
@@ -32,7 +32,7 @@ calculatorStore.subscribe((newCalc) => {
 		</tr>
 	</thead>
 	<tbody>
-		{#each savings as saving}
+		{#each selectedSavings as saving}
 			<TableRow {saving} />
 		{/each}
 	</tbody>
