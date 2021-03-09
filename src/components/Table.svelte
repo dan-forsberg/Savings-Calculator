@@ -8,9 +8,6 @@ let selectedSavings = [];
 calculatorStore.subscribe((newCalc) => {
 	let allSavings = newCalc.calculateSavings();
 	selectedSavings = selectSavings(allSavings);
-
-	// force svelte to update
-	selectedSavings = selectedSavings;
 });
 
 function selectSavings(allSavings: ISavings[]) {
@@ -34,8 +31,8 @@ function selectSavings(allSavings: ISavings[]) {
 		</tr>
 	</thead>
 	<tbody>
-		{#each selectedSavings as saving}
-			<TableRow {saving} />
+		{#each selectedSavings as saving, index}
+			<TableRow {saving} {index} />
 		{/each}
 	</tbody>
 </table>
