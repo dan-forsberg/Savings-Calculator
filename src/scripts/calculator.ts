@@ -42,9 +42,10 @@ export default class Calculator {
 		};
 
 
-		// while true
 		let year = 0;
-		while (true) {
+		while ((this.calculatePeriod && year != this.goalNumber) ||
+			(!this.calculatePeriod && lastYearsResult.resultWithProfit < this.goalNumber)) {
+
 			if (year % this.scheduledIncreasePeriod === 0) {
 				this.monthlySavings = this.monthlySavings + this.scheduledIncrease;
 			}
@@ -53,11 +54,6 @@ export default class Calculator {
 			results.push(thisYearsResult);
 
 			lastYearsResult = thisYearsResult;
-
-			if ((this.calculatePeriod && year == this.goalNumber) ||
-				(!this.calculatePeriod && thisYearsResult.resultWithProfit >= this.goalNumber)) {
-				break;
-			}
 			year++;
 		}
 
