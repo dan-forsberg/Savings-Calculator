@@ -10,8 +10,9 @@ let startCapital = 10000,
 	yearlyProfit = 7,
 	schIncAmount = 100,
 	schIncPeriod = 5,
-	goal = false,
-	goalAmount = -1;
+	goalAmount = 1000000;
+
+let period = true;
 
 onMount(() => {
 	update();
@@ -23,7 +24,8 @@ function update() {
 	calculator.set(
 		new Calculator(
 			startCapital,
-			savingsPeriod,
+			period ? savingsPeriod : goalAmount,
+			period,
 			monthlySavings,
 			profit,
 			schIncPeriod,
@@ -46,19 +48,18 @@ function update() {
 		<label class="active" for="monthlySavings">Månadsparande</label>
 		<input id="monthlySavings" type="number" min="0" bind:value={monthlySavings} />
 	</div>
+
+	<div class="switch">
+		<label>
+			Målvärde
+			<input bind:checked={period} type="checkbox" />
+			<span class="lever" />
+			Antal år
+		</label>
+	</div>
+
 	<div class="input-field">
-		<div class="switch">
-			<label>
-				Off
-				<input bind:value={goal} type="checkbox" />
-				<span class="lever" />
-				On
-			</label>
-		</div>
-		{#if goal}
-			<label class="active" for="goalAmount">Målvärde: </label>
-			<input id="goalAmount" type="number" bind:value={goalAmount} />
-		{:else}
+		{#if period}
 			<label class="active" for="period">Antal år: </label>
 			<input
 				id="period"
@@ -67,6 +68,9 @@ function update() {
 				max="100"
 				step="1"
 				bind:value={savingsPeriod} />
+		{:else}
+			<label class="active" for="goalAmount">Målvärde: </label>
+			<input id="goalAmount" type="number" bind:value={goalAmount} />
 		{/if}
 	</div>
 	<div class="input-field">
@@ -74,11 +78,11 @@ function update() {
 		<input id="profit" type="number" min="0" max="50" step="0.5" bind:value={yearlyProfit} />
 	</div>
 	<div class="input-field">
-		<label class="active" for="schIncPer">Vart {schIncPeriod} år ökar månadssparandet...</label>
+		<label class="active" for="schIncPer">Vart {schIncPeriod} år ökar...</label>
 		<input id="schIncPer" type="number" min="0" max="100" bind:value={schIncPeriod} />
 	</div>
 	<div class="input-field">
-		<label class="active" for="schInc">...med {schIncAmount} kr</label>
+		<label class="active" for="schInc">...sparandet med {schIncAmount} kr</label>
 		<input id="schInc" type="number" min="0" bind:value={schIncAmount} />
 	</div>
 	<input class="btn-large" id="submit" type="submit" value="Räkna" />

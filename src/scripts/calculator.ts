@@ -5,21 +5,28 @@ export default class Calculator {
 	private monthlySavings: number;
 	private readonly scheduledIncrease: number;
 	private readonly scheduledIncreasePeriod: number;
-	private readonly savingsPeriod: number;
-	private readonly goalSavings: number;
+	private readonly goalNumber: number;
 	private readonly yearlyProfit: number;
+	private readonly calculatePeriod: boolean;
+
 
 	private cachedResults: ISavings[] | undefined;
 
-	constructor(startCapital: number, savingsPeriod: number, monthlySavings: number, yearlyProfit: number,
-		scheduledIncreasePeriod: number = 0, scheduledIncrease: number = 0, goalSavings: number = -1) {
+	constructor(
+		startCapital: number,
+		goalNumber: number,
+		calculatePeriod: boolean,
+		monthlySavings: number,
+		yearlyProfit: number,
+		scheduledIncreasePeriod: number = 0,
+		scheduledIncrease: number = 0) {
 		this.startCapital = startCapital;
-		this.savingsPeriod = savingsPeriod;
+		this.goalNumber = goalNumber;
+		this.calculatePeriod = calculatePeriod;
 		this.monthlySavings = monthlySavings;
 		this.yearlyProfit = yearlyProfit;
 		this.scheduledIncreasePeriod = scheduledIncreasePeriod;
 		this.scheduledIncrease = scheduledIncrease;
-		this.goalSavings = goalSavings;
 	}
 
 	public calculateSavings(): ISavings[] {
@@ -35,14 +42,9 @@ export default class Calculator {
 		};
 
 
-		let stop = this.savingsPeriod;
-		// if the user just wants to know how long it'll take to reach this.goalSavings
-		if (this.goalSavings !== -1) {
-			stop = Number.MAX_VALUE;
-		}
-
-		for (let year: number = 0; year < stop; year++) {
-
+		// while true
+		let year = 0;
+		while (true) {
 			if (year % this.scheduledIncreasePeriod === 0) {
 				this.monthlySavings = this.monthlySavings + this.scheduledIncrease;
 			}
@@ -52,9 +54,11 @@ export default class Calculator {
 
 			lastYearsResult = thisYearsResult;
 
-			if (this.goalSavings !== -1 && thisYearsResult.resultWithProfit >= this.goalSavings) {
+			if ((this.calculatePeriod && year == this.goalNumber) ||
+				(!this.calculatePeriod && thisYearsResult.resultWithProfit >= this.goalNumber)) {
 				break;
 			}
+			year++;
 		}
 
 		this.cachedResults = results;
