@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 import calculatorStore from "../calculatorStore";
 import TableRow from "./TableRow.svelte";
 export let maxTableLength = 10;
@@ -13,14 +13,9 @@ calculatorStore.subscribe((newCalc) => {
 		everyNthRow = Math.round(allSavings.length / maxTableLength);
 	}
 
-	savings = [];
-	savings = savings;
-
-	allSavings.map((saving, i) => {
-		if (i == 0 || i % everyNthRow == 0 || i == end) {
-			savings.push(saving);
-		}
-	});
+	savings = allSavings.filter(
+		(_, index) => index == 0 || index % everyNthRow == 0 || index == end
+	);
 
 	// force svelte to update
 	savings = savings;
