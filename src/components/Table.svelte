@@ -1,25 +1,27 @@
-<script>
+<script lang="ts">
 import calculatorStore from "../calculatorStore";
+import type ISavings from "../scripts/ISavings";
 import TableRow from "./TableRow.svelte";
 export let maxTableLength = 10;
 
 let selectedSavings = [];
 calculatorStore.subscribe((newCalc) => {
 	let allSavings = newCalc.calculateSavings();
+	selectedSavings = selectSavings(allSavings);
 
+	// force svelte to update
+	selectedSavings = selectedSavings;
+});
+
+function selectSavings(allSavings: ISavings[]) {
 	let everyNthRow = 1;
 	let end = allSavings.length - 1;
 	if (allSavings.length > maxTableLength) {
 		everyNthRow = Math.round(allSavings.length / maxTableLength);
 	}
 
-	selectedSavings = allSavings.filter(
-		(_, index) => index == 0 || index % everyNthRow == 0 || index == end
-	);
-
-	// force svelte to update
-	selectedSavings = selectedSavings;
-});
+	return allSavings.filter((_, index) => index == 0 || index % everyNthRow == 0 || index == end);
+}
 </script>
 
 <table id="savingsTable">
