@@ -1,8 +1,10 @@
 {
 	"name": "svelte-app",
 	"version": "1.0.0",
+	"license": "GPL-3.0",
 	"scripts": {
-		"build": "rollup -c && cd public/build; sed -i \"s:href='/:href=':g\" index.html && sed -i \"s:src='/:src=':g\" index.html",
+		"build": "rollup -c",
+		"fixpath": "sed -i \"s:href='/:href=':g\" public/index.html && sed -i \"s:src='/:src=':g\" public/index.html",
 		"dev": "rollup -c -w",
 		"start": "sirv public",
 		"validate": "svelte-check"
