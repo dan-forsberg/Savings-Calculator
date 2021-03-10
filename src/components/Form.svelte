@@ -40,8 +40,10 @@ function readableNums(value: number): string {
 	else return "0";
 }
 
-function zeroIfNull(value: number | null) {
-	return value === null ? 0 : value;
+function zeroIfNull(value: number | string | null): number {
+	if (value == null) return 0;
+	else if (typeof value === "number") return value;
+	else return Number.parseInt(value);
 }
 
 $: {
