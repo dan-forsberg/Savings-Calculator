@@ -33,6 +33,11 @@ function update() {
 		)
 	);
 }
+
+/* 1000 -> 1 000 */
+function readableNums(value: number): string {
+	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
 </script>
 
 <form
@@ -40,12 +45,14 @@ function update() {
 		update();
 	}}>
 	<div class="input-field">
-		<label class="active" for="startCapital">Startkapital</label>
+		<label class="active" for="startCapital"
+			>Startkapital: {readableNums(startCapital)} kr</label>
 		<input id="startCapital" type="number" min="0" bind:value={startCapital} />
 	</div>
 
 	<div class="input-field">
-		<label class="active" for="monthlySavings">Månadsparande</label>
+		<label class="active" for="monthlySavings"
+			>Månadsparande: {readableNums(monthlySavings)} kr</label>
 		<input id="monthlySavings" type="number" min="0" bind:value={monthlySavings} />
 	</div>
 
@@ -60,7 +67,7 @@ function update() {
 
 	<div class="input-field">
 		{#if period}
-			<label class="active" for="period">Antal år: </label>
+			<label class="active" for="period">Antal år: {savingsPeriod}</label>
 			<input
 				id="period"
 				type="number"
@@ -69,7 +76,7 @@ function update() {
 				step="1"
 				bind:value={savingsPeriod} />
 		{:else}
-			<label class="active" for="goalAmount">Målvärde: </label>
+			<label class="active" for="goalAmount">Målvärde: {readableNums(goalAmount)} kr</label>
 			<input id="goalAmount" type="number" bind:value={goalAmount} />
 		{/if}
 	</div>
@@ -82,7 +89,7 @@ function update() {
 		<input id="schIncPer" type="number" min="0" max="100" bind:value={schIncPeriod} />
 	</div>
 	<div class="input-field">
-		<label class="active" for="schInc">...sparandet med {schIncAmount} kr</label>
+		<label class="active" for="schInc">...sparandet med {readableNums(schIncAmount)} kr</label>
 		<input id="schInc" type="number" min="0" bind:value={schIncAmount} />
 	</div>
 	<input class="btn-large" id="submit" type="submit" value="Räkna" />
