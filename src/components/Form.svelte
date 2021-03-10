@@ -1,6 +1,6 @@
 <script lang="ts">
 import Calculator from "../scripts/calculator";
-import calculator from "../calculatorStore";
+import store from "../calculatorStore";
 
 import { onMount } from "svelte";
 
@@ -12,7 +12,7 @@ let startCapital = 10000,
 	schIncPeriod = 5,
 	goalAmount = 1000000;
 
-let period = true;
+let calculatePeriod = true;
 
 onMount(() => {
 	update();
@@ -21,11 +21,11 @@ onMount(() => {
 function update() {
 	// change 7 -> 1.07
 	let profit = 1 + yearlyProfit / 100;
-	calculator.set(
+	store.set(
 		new Calculator(
 			zeroIfNull(startCapital),
-			period ? zeroIfNull(savingsPeriod) : zeroIfNull(goalAmount),
-			period,
+			calculatePeriod ? zeroIfNull(savingsPeriod) : zeroIfNull(goalAmount),
+			calculatePeriod,
 			zeroIfNull(monthlySavings),
 			zeroIfNull(profit),
 			zeroIfNull(schIncPeriod),
@@ -66,14 +66,14 @@ function zeroIfNull(value: number | string | null): number {
 	<div class="switch">
 		<label>
 			Målvärde
-			<input bind:checked={period} type="checkbox" />
+			<input bind:checked={calculatePeriod} type="checkbox" />
 			<span class="lever" />
 			Antal år
 		</label>
 	</div>
 
 	<div class="input-field">
-		{#if period}
+		{#if calculatePeriod}
 			<label class="active" for="period">Antal år: {zeroIfNull(savingsPeriod)}</label>
 			<input
 				id="period"
