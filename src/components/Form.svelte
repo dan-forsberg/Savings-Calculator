@@ -36,7 +36,22 @@ function update() {
 
 /* 1000 -> 1 000 */
 function readableNums(value: number): string {
-	return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+	if (value !== null) return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+	else return "0";
+}
+
+function zeroIfNull(value: number | null) {
+	return value === null ? 0 : value;
+}
+
+$: {
+	startCapital = zeroIfNull(startCapital);
+	savingsPeriod = zeroIfNull(savingsPeriod);
+	goalAmount = zeroIfNull(goalAmount);
+	monthlySavings = zeroIfNull(monthlySavings);
+	yearlyProfit = zeroIfNull(yearlyProfit);
+	schIncAmount = zeroIfNull(schIncAmount);
+	schIncPeriod = zeroIfNull(schIncPeriod);
 }
 </script>
 

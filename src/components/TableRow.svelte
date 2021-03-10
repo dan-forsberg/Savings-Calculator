@@ -3,8 +3,6 @@ import type ISavings from "../scripts/ISavings";
 export let saving: ISavings;
 export let index: number;
 
-console.log(`Index: ${index}, result: ${saving.resultWithProfit}`);
-
 let diffInProcent = Math.round((saving.resultWithProfit / saving.resultNoProfit) * 100);
 let withProfit = formatNumberNicely(saving.resultWithProfit);
 let noProfit = formatNumberNicely(saving.resultNoProfit);
