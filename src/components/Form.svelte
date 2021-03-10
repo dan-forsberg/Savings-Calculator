@@ -23,13 +23,13 @@ function update() {
 	let profit = 1 + yearlyProfit / 100;
 	calculator.set(
 		new Calculator(
-			startCapital,
-			period ? savingsPeriod : goalAmount,
+			zeroIfNull(startCapital),
+			period ? zeroIfNull(savingsPeriod) : zeroIfNull(goalAmount),
 			period,
-			monthlySavings,
-			profit,
-			schIncPeriod,
-			schIncAmount
+			zeroIfNull(monthlySavings),
+			zeroIfNull(profit),
+			zeroIfNull(schIncPeriod),
+			zeroIfNull(schIncAmount)
 		)
 	);
 }
@@ -44,16 +44,6 @@ function zeroIfNull(value: number | string | null): number {
 	if (value == null) return 0;
 	else if (typeof value === "number") return value;
 	else return Number.parseInt(value);
-}
-
-$: {
-	startCapital = zeroIfNull(startCapital);
-	savingsPeriod = zeroIfNull(savingsPeriod);
-	goalAmount = zeroIfNull(goalAmount);
-	monthlySavings = zeroIfNull(monthlySavings);
-	yearlyProfit = zeroIfNull(yearlyProfit);
-	schIncAmount = zeroIfNull(schIncAmount);
-	schIncPeriod = zeroIfNull(schIncPeriod);
 }
 </script>
 
@@ -84,7 +74,7 @@ $: {
 
 	<div class="input-field">
 		{#if period}
-			<label class="active" for="period">Antal år: {savingsPeriod}</label>
+			<label class="active" for="period">Antal år: {zeroIfNull(savingsPeriod)}</label>
 			<input
 				id="period"
 				type="number"
@@ -98,11 +88,11 @@ $: {
 		{/if}
 	</div>
 	<div class="input-field">
-		<label class="active" for="profit">Avkastning per år: {yearlyProfit}%</label>
-		<input id="profit" type="number" min="0" max="50" step="0.5" bind:value={yearlyProfit} />
+		<label class="active" for="profit">Avkastning per år: {zeroIfNull(yearlyProfit)}%</label>
+		<input id="profit" type="number" min="0" max="500" bind:value={yearlyProfit} />
 	</div>
 	<div class="input-field">
-		<label class="active" for="schIncPer">Vart {schIncPeriod} år ökar...</label>
+		<label class="active" for="schIncPer">Vart {zeroIfNull(schIncPeriod)} år ökar...</label>
 		<input id="schIncPer" type="number" min="0" max="100" bind:value={schIncPeriod} />
 	</div>
 	<div class="input-field">
